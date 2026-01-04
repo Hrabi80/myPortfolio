@@ -1,4 +1,4 @@
-import { BlogMeta, BlogPost } from "@/domain/entities/blog.entity";
+import { BlogMeta } from "@/domain/entities/blog.entity";
 import { ArrowUpRight, Calendar } from "lucide-react";
 import Link from "next/link";
 

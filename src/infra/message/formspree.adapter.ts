@@ -1,4 +1,4 @@
-import { ContactMessage } from "@/domain/entities/project.entity";
+import { ContactMessage } from "@/domain/entities/contact.entity";
 import { MessageSender } from "@/domain/ports";
 import { env } from "@/env";
 

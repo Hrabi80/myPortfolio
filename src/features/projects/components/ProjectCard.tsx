@@ -14,11 +14,11 @@ export const ProjectCard = ({ project, index }: ProjectCardProps) => (
       style={{ animationDelay: `${0.1 * (index + 1)}s` }}
     >
       <div className="mb-4 aspect-video overflow-hidden rounded-lg bg-muted">
-        {project.gallery?.length ?  (
+        {project.coverImage || project.gallery?.length ?  (
           <Image
             width={100}
             height={100}
-            src={project.gallery[0]}
+            src={project.coverImage ?? project.gallery?.[0] ?? ""}
             alt={project.name}
             className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
           />

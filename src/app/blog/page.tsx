@@ -6,6 +6,7 @@ import { fetchBlogs } from "@/features/blogs/services/blogs.services";
 
 export default async function BlogPage() {
   const posts = await fetchBlogs();
+  console.log("🚀 ~ BlogPage ~ posts:", posts)
 
   return (
     <div className="min-h-screen bg-background">

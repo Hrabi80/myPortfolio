@@ -1,4 +1,6 @@
-import { BlogPost, ContactMessage, Project } from "../entities/project.entity";
+import { BlogPost } from "../entities/blog.entity";
+import { ContactMessage } from "../entities/contact.entity";
+import { Project } from "../entities/project.entity";
 
 export interface ProjectsRepository {
   getAllProjects(): Promise<Project[]>;

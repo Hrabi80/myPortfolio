@@ -60,9 +60,8 @@ export const fetchProjectBySlug = cache(
         return fallbackProject;
       }
 
-      //const blocks = await getBlocks(page.id);
-
-      return { ...project };
+      const project = mapToProject(page);
+      return project;
     } catch (error) {
       console.warn("Notion project fetch failed, using fallback data.", error);
       return fallbackProject;

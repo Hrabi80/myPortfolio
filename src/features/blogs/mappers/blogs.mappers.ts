@@ -20,7 +20,7 @@ export const mapToBlogMeta = (page: PageObjectResponse): BlogMeta => {
   return {
     id: page.id,
     slug: getRichText(page, "slug"),
-    title: getTitle(page, "name"),
+    title: getRichText(page, "title"),
     summary: getRichText(page, "summary"),
     coverImage: getCover(page),
     tags: getTags(page, "tags"),

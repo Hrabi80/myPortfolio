@@ -1,4 +1,5 @@
 import { cache } from "react";
+import { blogsFallback, getFallbackPostBySlug } from "@/data/content";
 import { env } from "@/env";
 import { getDatabase, getPageBlocks, isNotionConfigured, isPageObject } from "@/lib/notion";
 import { BlogMeta, BlogPost } from "@/domain/entities/blog.entity";
@@ -8,53 +9,66 @@ const blogDbId = env.NOTION_BLOG_DATABASE_ID;
 
 export const fetchBlogs = cache(async (): Promise<BlogMeta[]> => {
   if (!isNotionConfigured() || !blogDbId) {
-    return [];
+    return blogsFallback.map(({ blocks, ...meta }) => meta);
   }
 
-  const res = await getDatabase(blogDbId, {
-    filter: {
-      property: "status",
-      status: { equals: "published" },
-    },
-    sorts: [{ property: "date", direction: "descending" }],
-  });
+  try {
+    const res = await getDatabase(blogDbId, {
+      filter: {
+        property: "status",
+        status: { equals: "published" },
+      },
+      sorts: [{ property: "date", direction: "descending" }],
+    });
+    console.log("🚀 ~ res:", res)
 
-  return res.results.filter(isPageObject).map(mapToBlogMeta);
+    const posts = res.results.filter(isPageObject).map(mapToBlogMeta);
+    return posts.length ? posts : blogsFallback.map(({ blocks, ...meta }) => meta);
+  } catch (error) {
+    console.warn("Notion blogs fetch failed, using fallback data.", error);
+    return blogsFallback.map(({ blocks, ...meta }) => meta);
+  }
 });
 
 export const fetchBlogBySlug = cache(async (slug: string): Promise<BlogPost | null> => {
+  const fallbackPost = getFallbackPostBySlug(slug);
   if (!isNotionConfigured() || !blogDbId) {
-    return null;
+    return fallbackPost;
   }
 
-  const res = await getDatabase(blogDbId, {
-    filter: {
-      and: [
-        { property: "slug", rich_text: { equals: slug } },
-        { property: "status", status: { equals: "published" } },
-      ],
-    },
-    page_size: 1,
-  });
+  try {
+    const res = await getDatabase(blogDbId, {
+      filter: {
+        and: [
+          { property: "slug", rich_text: { equals: slug } },
+          { property: "status", status: { equals: "published" } },
+        ],
+      },
+      page_size: 1,
+    });
 
-  const page = res.results.find(isPageObject);
-  if (!page) {
-    return null;
+    const page = res.results.find(isPageObject);
+    if (!page) {
+      return fallbackPost;
+    }
+
+    const meta = mapToBlogMeta(page);
+
+    // Medium blog: no blocks, you usually link out.
+    if (meta.source === "medium") {
+      return { ...meta, source: "medium" };
+    }
+
+    // Notion blog: fetch blocks (the page content)
+    const blocks = await getPageBlocks(page.id);
+
+    return {
+      ...meta,
+      source: "notion",
+      blocks,
+    };
+  } catch (error) {
+    console.warn("Notion blog fetch failed, using fallback data.", error);
+    return fallbackPost;
   }
-
-  const meta = mapToBlogMeta(page);
-
-  // Medium blog: no blocks, you usually link out.
-  if (meta.source === "medium") {
-    return meta;
-  }
-
-  // Notion blog: fetch blocks (the page content)
-  const blocks = await getPageBlocks(page.id);
-
-  return {
-    ...meta,
-    source: "notion",
-    blocks,
-  };
 });
