@@ -1,0 +1,345 @@
+{
+  "projects": [
+    {
+      "id": "project-alpha",
+      "slug": "project-alpha",
+      "title": "Project Alpha",
+      "description": "A revolutionary AI-powered task manager.",
+      "tags": ["Next.js", "OpenAI", "Tailwind"],
+      "githubUrl": "https://github.com",
+      "demoUrl": "https://example.com",
+      "publishedAt": "2024-01-10",
+      "blocks": [
+        {
+          "id": "project-alpha-1",
+          "type": "paragraph",
+          "paragraph": {
+            "rich_text": [
+              {
+                "plain_text": "Project Alpha is an AI-powered task manager that helps teams prioritize work and stay focused.",
+                "annotations": {
+                  "bold": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false,
+                  "code": false,
+                  "color": "default"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "id": "project-alpha-2",
+          "type": "heading_2",
+          "heading_2": {
+            "rich_text": [
+              {
+                "plain_text": "Key Features",
+                "annotations": {
+                  "bold": true,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false,
+                  "code": false,
+                  "color": "default"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "id": "project-alpha-3",
+          "type": "bulleted_list_item",
+          "bulleted_list_item": {
+            "rich_text": [
+              {
+                "plain_text": "Smart prioritization and task grouping",
+                "annotations": {
+                  "bold": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false,
+                  "code": false,
+                  "color": "default"
+                }
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "project-beta",
+      "slug": "project-beta",
+      "title": "Project Beta",
+      "description": "E-commerce platform with real-time inventory.",
+      "tags": ["React", "Node.js", "Stripe"],
+      "githubUrl": "https://github.com",
+      "demoUrl": "https://example.com",
+      "publishedAt": "2023-12-12",
+      "blocks": [
+        {
+          "id": "project-beta-1",
+          "type": "paragraph",
+          "paragraph": {
+            "rich_text": [
+              {
+                "plain_text": "Project Beta delivers real-time inventory updates and a fast checkout experience.",
+                "annotations": {
+                  "bold": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false,
+                  "code": false,
+                  "color": "default"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "id": "project-beta-2",
+          "type": "bulleted_list_item",
+          "bulleted_list_item": {
+            "rich_text": [
+              {
+                "plain_text": "Live stock synchronization and payment flows",
+                "annotations": {
+                  "bold": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false,
+                  "code": false,
+                  "color": "default"
+                }
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "project-gamma",
+      "slug": "project-gamma",
+      "title": "Project Gamma",
+      "description": "Social media dashboard for analytics.",
+      "tags": ["Vue", "Firebase", "Chart.js"],
+      "githubUrl": "https://github.com",
+      "demoUrl": "https://example.com",
+      "publishedAt": "2023-11-02",
+      "blocks": [
+        {
+          "id": "project-gamma-1",
+          "type": "paragraph",
+          "paragraph": {
+            "rich_text": [
+              {
+                "plain_text": "Project Gamma aggregates social metrics into a single, actionable dashboard.",
+                "annotations": {
+                  "bold": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false,
+                  "code": false,
+                  "color": "default"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "id": "project-gamma-2",
+          "type": "bulleted_list_item",
+          "bulleted_list_item": {
+            "rich_text": [
+              {
+                "plain_text": "Custom reports and audience insights",
+                "annotations": {
+                  "bold": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false,
+                  "code": false,
+                  "color": "default"
+                }
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "project-delta",
+      "slug": "project-delta",
+      "title": "Project Delta",
+      "description": "Crypto portfolio tracker.",
+      "tags": ["React Native", "CoinGecko API"],
+      "githubUrl": "https://github.com",
+      "demoUrl": "https://example.com",
+      "publishedAt": "2023-10-20",
+      "blocks": [
+        {
+          "id": "project-delta-1",
+          "type": "paragraph",
+          "paragraph": {
+            "rich_text": [
+              {
+                "plain_text": "Project Delta tracks crypto holdings with live price alerts and performance charts.",
+                "annotations": {
+                  "bold": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false,
+                  "code": false,
+                  "color": "default"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "id": "project-delta-2",
+          "type": "bulleted_list_item",
+          "bulleted_list_item": {
+            "rich_text": [
+              {
+                "plain_text": "Price alerts, watchlists, and ROI summaries",
+                "annotations": {
+                  "bold": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false,
+                  "code": false,
+                  "color": "default"
+                }
+              }
+            ]
+          }
+        }
+      ]
+    }
+  ],
+  "posts": [
+    {
+      "id": "react-server-components",
+      "slug": "react-server-components",
+      "title": "Understanding React Server Components",
+      "summary": "A deep dive into the future of React rendering.",
+      "publishedAt": "2024-01-15",
+      "tags": ["React", "RSC", "Next.js"],
+      "source": "notion",
+      "blocks": [
+        {
+          "id": "post-rsc-1",
+          "type": "paragraph",
+          "paragraph": {
+            "rich_text": [
+              {
+                "plain_text": "React Server Components bring a new rendering model that blends server and client UI.",
+                "annotations": {
+                  "bold": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false,
+                  "code": false,
+                  "color": "default"
+                }
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "mastering-tailwind",
+      "slug": "mastering-tailwind",
+      "title": "Mastering Tailwind CSS",
+      "summary": "Tips and tricks for building beautiful UIs faster.",
+      "publishedAt": "2023-12-20",
+      "tags": ["Tailwind", "CSS", "UI"],
+      "source": "notion",
+      "blocks": [
+        {
+          "id": "post-tailwind-1",
+          "type": "paragraph",
+          "paragraph": {
+            "rich_text": [
+              {
+                "plain_text": "Tailwind lets you compose complex interfaces quickly with utility-first styles.",
+                "annotations": {
+                  "bold": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false,
+                  "code": false,
+                  "color": "default"
+                }
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "web-dev-2024",
+      "slug": "web-dev-2024",
+      "title": "The State of Web Development 2024",
+      "summary": "Trends and technologies to watch out for this year.",
+      "publishedAt": "2023-11-10",
+      "tags": ["Trends", "Web", "Tooling"],
+      "source": "notion",
+      "blocks": [
+        {
+          "id": "post-webdev-1",
+          "type": "paragraph",
+          "paragraph": {
+            "rich_text": [
+              {
+                "plain_text": "From edge runtimes to AI tooling, the web platform keeps evolving fast.",
+                "annotations": {
+                  "bold": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false,
+                  "code": false,
+                  "color": "default"
+                }
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "why-typescript",
+      "slug": "why-typescript",
+      "title": "Why I Love TypeScript",
+      "summary": "How static typing saved my sanity.",
+      "publishedAt": "2023-10-05",
+      "tags": ["TypeScript", "DX"],
+      "source": "notion",
+      "blocks": [
+        {
+          "id": "post-ts-1",
+          "type": "paragraph",
+          "paragraph": {
+            "rich_text": [
+              {
+                "plain_text": "TypeScript helps teams catch issues early and build predictable systems.",
+                "annotations": {
+                  "bold": false,
+                  "italic": false,
+                  "strikethrough": false,
+                  "underline": false,
+                  "code": false,
+                  "color": "default"
+                }
+              }
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}
