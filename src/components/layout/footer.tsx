@@ -32,14 +32,7 @@ export function Footer() {
             >
               <Linkedin className="h-5 w-5" />
             </a>
-            <a
-              href="https://twitter.com"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex h-10 w-10 items-center justify-center rounded-full bg-secondary text-secondary-foreground transition-all duration-300 hover:bg-primary hover:text-primary-foreground"
-            >
-              <Twitter className="h-5 w-5" />
-            </a>
+            
           </div>
         </div>
 
