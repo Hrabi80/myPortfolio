@@ -6,7 +6,13 @@ import { env } from "@/env";
 
 const apiKey = process.env.NOTION_TOKEN;
 let notionClient: Client | null = null;
-
+/**
+ * A Notion block enriched with nested children blocks.
+ * Needed for column_list/column and any nested structures (toggles, nested lists, etc.).
+ */
+export type BlockWithChildren = BlockObjectResponse & {
+  children?: BlockWithChildren[];
+};
 const getNotionClient = () => {
   if (!apiKey) {
     throw new Error("NOTION_TOKEN is missing");
@@ -48,33 +54,62 @@ export const getPage = cache(async (pageId: string) => {
   return getNotionClient().pages.retrieve({ page_id: pageId });
 });
 
-export const getBlocks = cache(async (blockId: string) => {
-  const response = await getNotionClient().blocks.children.list({
-    block_id: blockId,
-  });
-  return response.results;
-});
+/**
+ * Fetch ALL direct children blocks for a given block (handles pagination).
+ */
 
-
-
-export const getPageBlocks = cache(async (pageId: string): Promise<BlockObjectResponse[]> => {
+export const getBlocks = cache(async (block_id: string): Promise<BlockObjectResponse[]> => {
   const blocks: BlockObjectResponse[] = [];
   let cursor: string | undefined;
 
   do {
     const res = await getNotionClient().blocks.children.list({
-      block_id: pageId,
+      block_id,
       start_cursor: cursor,
       page_size: 100,
-    
     });
 
-    blocks.push(
-      ...(res.results.filter((b): b is BlockObjectResponse => "type" in b)),
-    );
-
+    blocks.push(...res.results.filter((b): b is BlockObjectResponse => "type" in b));
     cursor = res.has_more ? res.next_cursor ?? undefined : undefined;
   } while (cursor);
 
   return blocks;
 });
+
+
+
+/**
+ * Backward-compatible alias:
+ * NB: pages are blocks too.
+ */
+export const getPageBlocks = cache(async (page_id: string): Promise<BlockObjectResponse[]> => {
+  return getBlocks(page_id);
+});
+
+
+
+/**
+ * Fetch a full recursive tree of blocks starting from a root block/page.
+ * This is required for Notion "Columns" (column_list -> column -> children).
+ */
+export const getBlockTree = async (root_block_id: string): Promise<BlockWithChildren[]> => {
+  const direct_children = await getBlocks(root_block_id);
+
+  const with_children = await Promise.all(
+    direct_children.map(async (block) => {
+      const node: BlockWithChildren = block as BlockWithChildren;
+
+      if (block.has_children) {
+        node.children = await getBlockTree(block.id);
+      }
+
+      return node;
+    }),
+  );
+
+  return with_children;
+};
+
+export const getPageBlockTree = async (page_id: string): Promise<BlockWithChildren[]> => {
+  return getBlockTree(page_id);
+};

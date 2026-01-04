@@ -1,7 +1,8 @@
-import type { ReactNode } from "react";
+import type { CSSProperties, ReactNode } from "react";
 import type { NotionBlock, NotionRichText } from "@/domain/entities/blog.entity";
 import { Box } from "@/components/layout/primitives";
 import { cn } from "@/lib/utils";
+import { CodeBlock } from "./codeBlock";
 
 const COLOR_CLASSES: Record<string, string> = {
   gray: "text-muted-foreground",
@@ -85,14 +86,34 @@ const renderBlock = (block: NotionBlock) => {
           <Text text={block.heading_3?.rich_text || []} />
         </h3>
       );
-    case "code":
+    case "code": {
+      const code = block.code?.rich_text.map((t) => t.plain_text).join("") ?? "";
+      const language = block.code?.language ?? "text";
+      return <CodeBlock key={block.id} code={code} language={language} />;
+    }
+
+    case "column_list": {
+      const columns = (block.children ?? []).filter((b) => b.type === "column");
+      if (!columns.length) return null;
+
+      const style = { "--cols": String(columns.length) } as CSSProperties;
+
       return (
-        <pre key={block.id} className="overflow-x-auto rounded-xl border border-border/60 bg-muted/70 p-4">
-          <code className="text-[13px] font-mono">
-            {block.code?.rich_text.map((t) => t.plain_text).join("")}
-          </code>
-        </pre>
+        <Box key={block.id} className="my-6" style={style}>
+          <div className="grid grid-cols-1 gap-6 md:[grid-template-columns:repeat(var(--cols),minmax(0,1fr))]">
+            {columns.map((col) => (
+              <Box key={col.id} className="min-w-0">
+                <NotionRenderer blocks={col.children ?? []} />
+              </Box>
+            ))}
+          </div>
+        </Box>
       );
+    }
+    case "column":
+      // rendered by column_list
+      return null;
+
     case "image": {
       const url = block.image?.type === "external" ? block.image.external?.url : block.image?.file?.url;
       if (!url) return null;
@@ -109,17 +130,19 @@ const renderBlock = (block: NotionBlock) => {
           <Text text={block.quote?.rich_text || []} />
         </blockquote>
       );
-    case "callout":
+    case "callout": {
+      const calloutIcon = block.callout?.icon;
+      const calloutEmoji = calloutIcon?.type === "emoji" ? calloutIcon.emoji : null;
+
       return (
         <div key={block.id} className="flex gap-3 rounded-xl border border-border/60 bg-muted/60 px-4 py-3 text-[15px]">
-          {block.callout?.icon?.emoji ? (
-            <span className="text-lg leading-6">{block.callout.icon.emoji}</span>
-          ) : null}
+          {calloutEmoji ? <span className="text-lg leading-6">{calloutEmoji}</span> : null}
           <div className="leading-7">
             <Text text={block.callout?.rich_text || []} />
           </div>
         </div>
       );
+    }
     case "divider":
       return <hr key={block.id} className="my-6 border-border/60" />;
     default:
