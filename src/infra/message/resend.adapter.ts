@@ -6,7 +6,7 @@ import { MessageSender } from "@/domain/ports";
 // This serves as a reference for users who might deploy a separate worker.
 export class ResendAdapter implements MessageSender {
   async send(message: ContactMessage): Promise<void> {
-    console.log("ResendAdapter: Sending message...", message);
+    console.log("ResendAdapter: Sending message....", message);
     // In a real server environment, you would use the Resend SDK here.
     // import { Resend } from 'resend';
     // const resend = new Resend(process.env.RESEND_API_KEY);
