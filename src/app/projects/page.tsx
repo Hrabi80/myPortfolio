@@ -2,7 +2,7 @@ import { Footer } from "@/components/layout/footer";
 import { Header } from "@/components/layout/header";
 import { WhatsAppButton } from "@/components/ui/whatsapp-button";
 import { ProjectCard } from "@/features/projects/components/ProjectCard";
-import { fetchProjects } from "@/features/projects/services/projects.services";
+import { fetchProjects } from "@/features/projects/services/fetch-projects";
 import Image from "next/image";
 
 export default async function ProjectsPage() {

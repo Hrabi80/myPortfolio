@@ -7,7 +7,7 @@ import { BlogPreviewSection } from "@/features/blogs/components/blog-preview";
 import { ContactSection } from "@/components/sections/contact";
 import { WhatsAppButton } from "@/components/ui/whatsapp-button";
 import { Metadata } from "next";
-import { fetchProjects } from "@/features/projects/services/projects.services";
+import { fetchProjects } from "@/features/projects/services/fetch-projects";
 
 export const metadata: Metadata = {
   title: "Hrabi | Software Engineer",

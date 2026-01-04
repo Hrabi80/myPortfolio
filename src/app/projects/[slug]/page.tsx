@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { WhatsAppButton } from "@/components/ui/whatsapp-button";
 import { ArrowLeft, Github, Globe } from "lucide-react";
 import Link from "next/link";
-import { fetchProjectBySlug } from "@/features/projects/services/projects.services";
+import { fetchProjectBySlug } from "@/features/projects/services/fetch-projects";
 import Image from "next/image";
 
 export default async function ProjectPage({ params }: { params: Promise<{ slug: string }> }) {

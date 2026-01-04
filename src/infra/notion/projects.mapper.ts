@@ -1,15 +1,15 @@
-import { Project } from "@/domain/entities/project.entity";
+import type { PageObjectResponse } from "@notionhq/client";
+import type { Project } from "@/domain/entities/project.entity";
 import {
   getDate,
   getFile,
   getFiles,
-  getMultiSelect,
   getRichText,
   getTags,
   getTitle,
   getUrl,
 } from "@/infra/notion/notion-property-getters";
-import { PageObjectResponse } from "@notionhq/client";
+
 export const mapToProject = (page: PageObjectResponse): Project => {
   return {
     id: page.id,
@@ -23,6 +23,6 @@ export const mapToProject = (page: PageObjectResponse): Project => {
     publishedAt: getDate(page, "date"),
     subTitle: getRichText(page, "sub-title"),
     description: getRichText(page, "description"),
-    gallery: getFiles(page, "gallery")
- };
+    gallery: getFiles(page, "gallery"),
+  };
 };

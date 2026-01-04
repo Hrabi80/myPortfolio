@@ -1,84 +1,65 @@
 import { cache } from "react";
-import { blogsFallback, getFallbackPostBySlug } from "@/data/content";
+import type { BlogMeta, BlogPost } from "@/domain/entities/blog.entity";
 import { env } from "@/env";
-import {
-  getDatabase,
-  getPageBlockTree,
-  isNotionConfigured,
-  isPageObject,
-} from "@/lib/notion";
-import { BlogMeta, BlogPost } from "@/domain/entities/blog.entity";
-import { mapToBlogMeta, mapTree } from "../mappers/blogs.mappers";
+import { FallbackBlogRepository } from "@/infra/fallback/blogs.repository";
+import { isNotionConfigured } from "@/infra/notion/client";
+import { NotionBlogRepository } from "@/infra/notion/blogs.repository";
+import type { BlogRepository } from "../blog.repository";
+import { BlogService } from "./blog.services";
+
 const blogDbId = env.NOTION_BLOG_DATABASE_ID;
 
-export const fetchBlogs = cache(async (): Promise<BlogMeta[]> => {
+class ResilientBlogRepository implements BlogRepository {
+  constructor(
+    private readonly primary: BlogRepository,
+    private readonly fallback: BlogRepository,
+  ) {}
+
+  async listMeta(): Promise<BlogMeta[]> {
+    try {
+      const posts = await this.primary.listMeta();
+      return posts.length ? posts : await this.fallback.listMeta();
+    } catch (error) {
+      console.warn("Notion blogs fetch failed, using fallback data.", error);
+      return this.fallback.listMeta();
+    }
+  }
+
+  async getBySlug(slug: string): Promise<BlogPost | null> {
+    try {
+      const post = await this.primary.getBySlug(slug);
+      return post ?? (await this.fallback.getBySlug(slug));
+    } catch (error) {
+      console.warn("Notion blog fetch failed, using fallback data.", error);
+      return this.fallback.getBySlug(slug);
+    }
+  }
+}
+
+const buildBlogService = () => {
+  const fallbackRepository = new FallbackBlogRepository();
+
   if (!isNotionConfigured() || !blogDbId) {
-    return blogsFallback.map(({ blocks, ...meta }) => meta);
+    return new BlogService(fallbackRepository);
   }
 
-  try {
-    const res = await getDatabase(blogDbId, {
-      filter: {
-        property: "status",
-        status: { equals: "published" },
-      },
-      sorts: [{ property: "date", direction: "descending" }],
-    });
-    console.log("🚀 ~ res:", res);
+  const notionRepository = new NotionBlogRepository(blogDbId);
+  // Wrap the primary adapter to keep fallback behavior in one place.
+  const repository = new ResilientBlogRepository(
+    notionRepository,
+    fallbackRepository,
+  );
+  return new BlogService(repository);
+};
 
-    const posts = res.results.filter(isPageObject).map(mapToBlogMeta);
-    return posts.length
-      ? posts
-      : blogsFallback.map(({ blocks, ...meta }) => meta);
-  } catch (error) {
-    console.warn("Notion blogs fetch failed, using fallback data.", error);
-    return blogsFallback.map(({ blocks, ...meta }) => meta);
-  }
+export const fetchBlogs = cache(async (): Promise<BlogMeta[]> => {
+  const service = buildBlogService();
+  return service.listMeta();
 });
 
 export const fetchBlogBySlug = cache(
   async (slug: string): Promise<BlogPost | null> => {
-    const fallbackPost = getFallbackPostBySlug(slug);
-    if (!isNotionConfigured() || !blogDbId) {
-      return fallbackPost;
-    }
-
-    try {
-      const res = await getDatabase(blogDbId, {
-        filter: {
-          and: [
-            { property: "slug", rich_text: { equals: slug } },
-            { property: "status", status: { equals: "published" } },
-          ],
-        },
-        page_size: 1,
-      });
-
-      const page = res.results.find(isPageObject);
-      if (!page) {
-        return fallbackPost;
-      }
-
-      const meta = mapToBlogMeta(page);
-
-      // Medium blog: no blocks, you usually link out.
-      if (meta.source === "medium") {
-        return { ...meta, source: "medium" };
-      }
-
-      // Notion blok : fetch blocks (the page content) that support nested block
-      const blockTree = await getPageBlockTree(page.id);
-
-      const blocks = blockTree.map(mapTree);
-
-      return {
-        ...meta,
-        source: "notion",
-        blocks,
-      };
-    } catch (error) {
-      console.warn("Notion blog fetch failed, using fallback data.", error);
-      return fallbackPost;
-    }
-  }
+    const service = buildBlogService();
+    return service.getBySlug(slug);
+  },
 );

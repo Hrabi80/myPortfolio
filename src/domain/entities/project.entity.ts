@@ -1,4 +1,4 @@
-import { Status, Tag } from "./types";
+import { Tag } from "./types";
 
 export interface Project  {
     id: string;

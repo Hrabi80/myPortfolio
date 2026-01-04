@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Project } from "@/domain/entities/project.entity";
-import { fetchProjects } from "@/features/projects/services/projects.services";
+import { fetchProjects } from "@/features/projects/services/fetch-projects";
 import { ArrowRight } from "lucide-react";
 import Link from "next/link";
 import { ProjectCard } from "./ProjectCard";
