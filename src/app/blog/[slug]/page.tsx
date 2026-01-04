@@ -5,7 +5,7 @@ import { NotionRenderer } from "@/components/notion/renderer";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { WhatsAppButton } from "@/components/ui/whatsapp-button";
-import { fetchBlogBySlug, fetchBlogs } from "@/features/blogs/services/blogs.services";
+import { fetchBlogBySlug, fetchBlogs } from "@/features/blogs/services/fetch-blogs";
 import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
 

@@ -1,8 +1,8 @@
 import type { CSSProperties, ReactNode } from "react";
-import type { NotionBlock, NotionRichText } from "@/domain/entities/blog.entity";
 import { Box } from "@/components/layout/primitives";
 import { cn } from "@/lib/utils";
 import { CodeBlock } from "./codeBlock";
+import { NotionBlock, NotionRichText } from "@/infra/notion/notion.types";
 
 const COLOR_CLASSES: Record<string, string> = {
   gray: "text-muted-foreground",

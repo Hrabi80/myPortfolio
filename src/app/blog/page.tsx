@@ -2,7 +2,7 @@ import { Footer } from "@/components/layout/footer";
 import { Header } from "@/components/layout/header";
 import { WhatsAppButton } from "@/components/ui/whatsapp-button";
 import { BlogCard } from "@/features/blogs/components/blogCard";
-import { fetchBlogs } from "@/features/blogs/services/blogs.services";
+import { fetchBlogs } from "@/features/blogs/services/fetch-blogs";
 
 export default async function BlogPage() {
   const posts = await fetchBlogs();

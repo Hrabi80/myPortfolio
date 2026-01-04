@@ -8,15 +8,9 @@ import {
   isPageObject,
 } from "@/lib/notion";
 import { BlogMeta, BlogPost } from "@/domain/entities/blog.entity";
-import { mapToBlogMeta } from "../mappers/blogs.mappers";
-import type { BlockWithChildren } from "@/lib/notion";
-import type { NotionBlock } from "@/domain/entities/blog.entity";
+import { mapToBlogMeta, mapTree } from "../mappers/blogs.mappers";
 const blogDbId = env.NOTION_BLOG_DATABASE_ID;
-const mapTree = (b: BlockWithChildren): NotionBlock => {
-      const node = b  as NotionBlock;
-      node.children = b.children?.map(mapTree);
-      return node;
-    }; 
+
 export const fetchBlogs = cache(async (): Promise<BlogMeta[]> => {
   if (!isNotionConfigured() || !blogDbId) {
     return blogsFallback.map(({ blocks, ...meta }) => meta);
@@ -74,7 +68,7 @@ export const fetchBlogBySlug = cache(
 
       // Notion blok : fetch blocks (the page content) that support nested block
       const blockTree = await getPageBlockTree(page.id);
-      
+
       const blocks = blockTree.map(mapTree);
 
       return {

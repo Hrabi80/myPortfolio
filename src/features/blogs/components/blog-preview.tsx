@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
 import Link from "next/link";
-import { fetchBlogs } from "../services/blogs.services";
+import { fetchBlogs } from "../services/fetch-blogs";
 import { BlogCard } from "./blogCard";
 
 
