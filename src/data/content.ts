@@ -7,7 +7,7 @@ type FallbackData = {
   posts: BlogPost[];
 };
 
-const fallback: FallbackData = fallbackData;
+const fallback: FallbackData = fallbackData as unknown as FallbackData;
 export const projectFallback = fallback.projects;
 export const blogsFallback = fallback.posts;
 export const getFallbackProjectBySlug = (slug: string) => {

@@ -13,11 +13,13 @@ const technologies = [
   { name: "PayloadCMS", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nodejs/nodejs-original.svg" },
 ];
 
+import { BlockWrapper } from "@/components/layout/block-wrapper";
+
 export function SkillsSection() {
   const duplicatedTechs = [...technologies, ...technologies];
 
   return (
-    <section className="overflow-hidden bg-card/30 py-16">
+    <BlockWrapper size="none" className="overflow-hidden bg-card/30">
       <div className="mx-auto mb-8 max-w-7xl px-6 lg:px-8">
         <div className="text-center opacity-0 animate-fade-up">
           <p className="mb-2 font-medium text-primary">Technologies I Work With</p>
@@ -48,6 +50,6 @@ export function SkillsSection() {
           ))}
         </div>
       </div>
-    </section>
+    </BlockWrapper>
   );
 }

@@ -8,6 +8,8 @@ import Image from "next/image";
 
 
 
+import { BlockWrapper } from "@/components/layout/block-wrapper";
+
 export async function LatestProjectsSection() {
   const projects = await fetchProjects();
   if(!projects || !projects.length)
@@ -16,7 +18,7 @@ export async function LatestProjectsSection() {
    )
   const latestProjects = projects.slice(0,3)
   return (
-    <section className="py-24">
+    <BlockWrapper size="medium">
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
         <div className="mb-12 flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
           <div className="opacity-0 animate-fade-up">
@@ -42,16 +44,8 @@ export async function LatestProjectsSection() {
           ))}
         </div>
 
-        <div className="mt-16 flex justify-center opacity-0 animate-fade-up stagger-3">
-          <Image
-            width={100}
-            height={100}
-            src="/assets/projects-illustration.png"
-            alt="Projects illustration"
-            className="w-48 animate-float opacity-50"
-          />
-        </div>
+        
       </div>
-    </section>
+    </BlockWrapper>
   );
 }

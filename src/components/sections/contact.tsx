@@ -17,6 +17,8 @@ const formSchema = z.object({
   message: z.string().min(10, "Message must be at least 10 characters"),
 });
 
+import { BlockWrapper } from "@/components/layout/block-wrapper";
+
 export function ContactSection() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
@@ -46,7 +48,7 @@ export function ContactSection() {
   }
 
   return (
-    <section id="contact" className="bg-card/50 py-24">
+    <BlockWrapper size="medium" id="contact" className="bg-card/50">
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
         <div className="mb-12 text-center opacity-0 animate-fade-up">
           <p className="mb-2 font-medium text-primary">Get In Touch</p>
@@ -169,6 +171,6 @@ export function ContactSection() {
           </div>
         </div>
       </div>
-    </section>
+    </BlockWrapper>
   );
 }

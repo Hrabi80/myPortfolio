@@ -6,13 +6,15 @@ import { BlogCard } from "./blogCard";
 
 
 
+import { BlockWrapper } from "@/components/layout/block-wrapper";
+
 export async function BlogPreviewSection() {
   const posts = await fetchBlogs();
   if(!posts || !posts.length) return;
   const latestPosts = posts.slice(0, 3);
 
   return (
-    <section className="bg-card/40 py-24">
+    <BlockWrapper size="medium" className="bg-card/40">
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
         <div className="mb-12 flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
           <div className="opacity-0 animate-fade-up">
@@ -38,6 +40,6 @@ export async function BlogPreviewSection() {
           ))}
         </div>
       </div>
-    </section>
+    </BlockWrapper>
   );
 }

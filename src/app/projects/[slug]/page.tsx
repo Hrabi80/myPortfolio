@@ -1,7 +1,7 @@
 import { Footer } from "@/components/layout/footer";
 import { Header } from "@/components/layout/header";
 import { WhatsAppButton } from "@/components/ui/whatsapp-button";
-import { ProjectDetail } from "@/features/projects/components/ProjectDetail";
+import { ProjectClient } from "./page_client";
 import { ProjectNotFound } from "@/features/projects/components/ProjectNotFound";
 import { fetchProjectBySlug } from "@/features/projects/services/fetch-projects";
 
@@ -15,7 +15,7 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
 
   return (
     <div className="py-20">
-      <ProjectDetail project={project} />
+      <ProjectClient project={project} />
     </div>
   );
 }

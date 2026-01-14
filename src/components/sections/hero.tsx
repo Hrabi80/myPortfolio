@@ -2,9 +2,11 @@ import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import Link from "next/link";
 
+import { BlockWrapper } from "@/components/layout/block-wrapper";
+
 export function HeroSection() {
   return (
-    <section className="relative flex min-h-screen items-center overflow-hidden">
+    <BlockWrapper size="hero" className="relative flex min-h-[60vh] items-center overflow-hidden">
 
       <div className="absolute top-20 right-0 h-96 w-96 rounded-full bg-primary/4 blur-md" />
       <div className="absolute bottom-20 left-0 h-72 w-72 rounded-full bg-accent/5 blur-md" />
@@ -70,6 +72,6 @@ export function HeroSection() {
           </div>
         </div>
       </div>
-    </section>
+    </BlockWrapper>
   );
 }
