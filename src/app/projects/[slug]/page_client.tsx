@@ -5,49 +5,21 @@ import type { Project } from "@/domain/entities/project.entity";
 import { Container } from "@/components/layout/primitives";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft, Github, Globe, X, ChevronLeft, ChevronRight, Maximize2 } from "lucide-react";
+import { ArrowLeft, Github, Globe, Maximize2, X } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
+import { Gallery } from "@/components/ui/Gallery";
+import { AnimatePresence, motion } from "framer-motion";
 
 type ProjectClientProps = {
   project: Project;
 };
 
 export function ProjectClient({ project }: ProjectClientProps) {
-  const [lightboxImage, setLightboxImage] = useState<string | null>(null);
-  const [currentImageIndex, setCurrentImageIndex] = useState(0);
-
+  const [isCoverLightboxOpen, setIsCoverLightboxOpen] = useState(false);
   const heroImage = project.coverImage ?? project.gallery?.[0] ?? null;
-  const gallery = project.gallery?.filter((image) => image !== heroImage) ?? [];
-  const allImages = heroImage ? [heroImage, ...gallery] : gallery;
-
-  const openLightbox = (imageSrc: string) => {
-    const index = allImages.indexOf(imageSrc);
-    setCurrentImageIndex(index);
-    setLightboxImage(imageSrc);
-  };
-
-  const closeLightbox = () => {
-    setLightboxImage(null);
-  };
-
-  const navigateImage = (direction: "prev" | "next") => {
-    if (direction === "prev") {
-      const newIndex = currentImageIndex === 0 ? allImages.length - 1 : currentImageIndex - 1;
-      setCurrentImageIndex(newIndex);
-      setLightboxImage(allImages[newIndex]);
-    } else {
-      const newIndex = currentImageIndex === allImages.length - 1 ? 0 : currentImageIndex + 1;
-      setCurrentImageIndex(newIndex);
-      setLightboxImage(allImages[newIndex]);
-    }
-  };
-
-  const handleKeyDown = (e: React.KeyboardEvent) => {
-    if (e.key === "Escape") closeLightbox();
-    if (e.key === "ArrowLeft") navigateImage("prev");
-    if (e.key === "ArrowRight") navigateImage("next");
-  };
+  // Filter out the hero image from the gallery to avoid duplication if it's the same
+  const galleryImages = project.gallery?.filter((img) => img !== heroImage) ?? [];
 
   return (
     <>
@@ -57,6 +29,8 @@ export function ProjectClient({ project }: ProjectClientProps) {
             <ArrowLeft className="mr-2 h-4 w-4" /> Back to Projects
           </Link>
         </Button>
+        
+        {/* Header Section */}
         <section className="grid gap-10 lg:grid-cols-[1.2fr_0.8fr]">
           <div className="space-y-4">
             <p className="text-sm text-muted-foreground">{project.publishedAt}</p>
@@ -106,6 +80,7 @@ export function ProjectClient({ project }: ProjectClientProps) {
           </div>
         </section>
 
+        {/* Hero Image */}
         {heroImage ? (
           <section className="mt-12">
             <div className="group relative overflow-hidden rounded-2xl border border-border/60 bg-card shadow-soft">
@@ -115,111 +90,75 @@ export function ProjectClient({ project }: ProjectClientProps) {
                 src={heroImage}
                 alt={project.name}
                 className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
+                priority
               />
               <Button
                 variant="secondary"
                 size="sm"
                 className="absolute right-4 top-4 opacity-0 transition-opacity duration-300 group-hover:opacity-100"
-                onClick={() => openLightbox(heroImage)}
+                onClick={() => setIsCoverLightboxOpen(true)}
               >
                 <Maximize2 className="h-4 w-4" />
               </Button>
             </div>
-            
-            {gallery.length > 0 && (
-              <div className="mt-8">
-                <h3 className="mb-4 text-xl font-semibold">Project Gallery</h3>
-                <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-                  {gallery.map((image, index) => (
-                    <div
-                      key={`${project.id}-gallery-${index}`}
-                      className="group relative overflow-hidden rounded-2xl border border-border/60 bg-card cursor-pointer"
-                      onClick={() => openLightbox(image)}
-                    >
-                      <Image
-                        width={800}
-                        height={600}
-                        src={image}
-                        alt={`${project.name} preview ${index + 2}`}
-                        className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
-                      />
-                      <div className="absolute inset-0 bg-black/0 transition-colors duration-300 group-hover:bg-black/20" />
-                      <Button
-                        variant="secondary"
-                        size="sm"
-                        className="absolute right-3 top-3 opacity-0 transition-opacity duration-300 group-hover:opacity-100"
-                      >
-                        <Maximize2 className="h-4 w-4" />
-                      </Button>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            )}
           </section>
         ) : null}
 
-        <section className="mt-12 rounded-2xl border border-border/60 bg-card/60 p-6 shadow-soft md:p-8">
-          <h2 className="mb-4 text-2xl font-semibold">Overview</h2>
-          <p className="text-base leading-7 text-muted-foreground">{project.description}</p>
-        </section>
+        {/* Main Content Grid */}
+        <div className="mt-12 grid gap-12 lg:grid-cols-2">
+          {/* Left Column: Description */}
+          <section className="rounded-2xl border border-border/60 bg-card/60 p-6 shadow-soft md:p-8 h-fit">
+            <h2 className="mb-4 text-2xl font-semibold">Overview</h2>
+            <div className="prose prose-neutral dark:prose-invert max-w-none">
+              <p className="text-base leading-7 text-muted-foreground whitespace-pre-wrap">
+                {project.description}
+              </p>
+            </div>
+          </section>
+
+          {/* Right Column: Gallery */}
+          {galleryImages.length > 0 && (
+            <section>
+              <Gallery images={galleryImages} title="Project Gallery" />
+            </section>
+          )}
+        </div>
       </Container>
 
-      {lightboxImage && (
-        <div 
-          className="fixed inset-0 z-50 flex items-center justify-center bg-black/90 backdrop-blur-sm"
-          onClick={closeLightbox}
-          onKeyDown={handleKeyDown}
-          tabIndex={0}
-        >
-          <Button
-            variant="ghost"
-            size="sm"
-            className="absolute right-4 top-4 z-10 text-white hover:bg-white/20"
-            onClick={closeLightbox}
+      {/* Cover Image Lightbox */}
+      <AnimatePresence>
+        {isCoverLightboxOpen && heroImage && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-50 flex items-center justify-center bg-black/95 backdrop-blur-sm p-4"
+            onClick={() => setIsCoverLightboxOpen(false)}
           >
-            <X className="h-5 w-5" />
-          </Button>
-          
-          <Button
-            variant="ghost"
-            size="sm"
-            className="absolute left-4 top-1/2 -translate-y-1/2 z-10 text-white hover:bg-white/20"
-            onClick={(e) => {
-              e.stopPropagation();
-              navigateImage("prev");
-            }}
-          >
-            <ChevronLeft className="h-6 w-6" />
-          </Button>
-          
-          <Button
-            variant="ghost"
-            size="sm"
-            className="absolute right-4 top-1/2 -translate-y-1/2 z-10 text-white hover:bg-white/20"
-            onClick={(e) => {
-              e.stopPropagation();
-              navigateImage("next");
-            }}
-          >
-            <ChevronRight className="h-6 w-6" />
-          </Button>
-          
-          <div className="relative max-h-[90vh] max-w-[90vw]">
-            <Image
-              src={lightboxImage}
-              alt={`${project.name} full view`}
-              width={1600}
-              height={1200}
-              className="max-h-[90vh] w-auto object-contain"
+            <Button
+              variant="ghost"
+              size="icon"
+              className="absolute right-4 top-4 text-white/70 hover:bg-white/10 hover:text-white"
+              onClick={() => setIsCoverLightboxOpen(false)}
+            >
+              <X className="h-6 w-6" />
+            </Button>
+            <motion.div
+              layoutId="cover-image"
+              className="relative max-h-[90vh] max-w-[90vw]"
               onClick={(e) => e.stopPropagation()}
-            />
-            <div className="absolute bottom-4 left-1/2 -translate-x-1/2 text-white text-sm bg-black/50 px-3 py-1 rounded-full">
-              {currentImageIndex + 1} / {allImages.length}
-            </div>
-          </div>
-        </div>
-      )}
+            >
+              <Image
+                src={heroImage}
+                alt={`${project.name} cover`}
+                width={1600}
+                height={1200}
+                className="h-auto max-h-[90vh] w-auto object-contain"
+              />
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </>
   );
 }

@@ -3,7 +3,7 @@ import type { Project } from "@/domain/entities/project.entity";
 import { env } from "@/env";
 import { FallbackProjectRepository } from "@/infra/fallback/projects.repository";
 import { isNotionConfigured } from "@/infra/notion/client";
-import { NotionProjectRepository } from "@/infra/notion/projects.repository";
+import { NotionProjectRepository } from "@/infra/notion/repositories/projects.repository";
 import { sortByPublishedAt } from "@/utils/sorting";
 import type { ProjectRepository } from "../project.repository";
 import { ProjectService } from "./project.services";

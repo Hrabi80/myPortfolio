@@ -5,7 +5,7 @@ import {
   getRichText,
   getTags,
   getUrl,
-} from "@/infra/notion/notion-property-getters";
+} from "@/infra/notion/helpers/notion-property-getters";
 import type { BlogMeta } from "@/domain/entities/blog.entity";
 
 const normalizeSource = (value: string): "notion" | "medium" => {

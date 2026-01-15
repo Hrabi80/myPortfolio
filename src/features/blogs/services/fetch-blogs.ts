@@ -3,7 +3,7 @@ import type { BlogMeta, BlogPost } from "@/domain/entities/blog.entity";
 import { env } from "@/env";
 import { FallbackBlogRepository } from "@/infra/fallback/blogs.repository";
 import { isNotionConfigured } from "@/infra/notion/client";
-import { NotionBlogRepository } from "@/infra/notion/blogs.repository";
+import { NotionBlogRepository } from "@/infra/notion/repositories/blogs.repository";
 import type { BlogRepository } from "../blog.repository";
 import { BlogService } from "./blog.services";
 

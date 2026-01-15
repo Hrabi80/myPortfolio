@@ -1,9 +1,9 @@
 import type { BlogMeta, BlogPost } from "@/domain/entities/blog.entity";
 import type { BlogRepository } from "@/features/blogs/blog.repository";
 import { getDatabase, getPageBlockTree, isPageObject } from "@/infra/notion/client";
-import { mapToBlogMeta } from "@/infra/notion/blogs.mapper";
-import { map_notion_block_tree_to_content_blocks } from "@/infra/notion/notion.mapper";
-import type { NotionBlock } from "@/infra/notion/notion.types";
+import { mapToBlogMeta } from "@/infra/notion/mappers/blogs.mapper";
+import { map_notion_block_tree_to_content_blocks } from "@/infra/notion/helpers/notion.mapper";
+import type { NotionBlock } from "@/infra/notion/helpers/notion.types";
 
 export class NotionBlogRepository implements BlogRepository {
   constructor(private readonly databaseId: string) {}

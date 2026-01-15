@@ -8,7 +8,7 @@ import {
   getTags,
   getTitle,
   getUrl,
-} from "@/infra/notion/notion-property-getters";
+} from "@/infra/notion/helpers/notion-property-getters";
 
 export const mapToProject = (page: PageObjectResponse): Project => {
   return {

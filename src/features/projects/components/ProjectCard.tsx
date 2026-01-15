@@ -2,6 +2,7 @@ import { Project } from "@/domain/entities/project.entity";
 import { ArrowRight } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+
 interface ProjectCardProps {
   project: Project;
   index: number;
@@ -14,10 +15,10 @@ export const ProjectCard = ({ project, index }: ProjectCardProps) => (
       style={{ animationDelay: `${0.1 * (index + 1)}s` }}
     >
       <div className="mb-4 aspect-video overflow-hidden rounded-lg bg-muted">
-        {project.coverImage || project.gallery?.length ?  (
+        {project.coverImage || project.gallery?.length ? (
           <Image
-            width={200}
-            height={200}
+            width={800} // Larger width for better resolution
+            height={450} // Adjust the height for the aspect ratio
             src={project.coverImage ?? project.gallery?.[0] ?? ""}
             alt={project.name}
             className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"

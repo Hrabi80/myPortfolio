@@ -1,7 +1,7 @@
 import type { Project } from "@/domain/entities/project.entity";
 import type { ProjectRepository } from "@/features/projects/project.repository";
 import { getDatabase, isPageObject } from "@/infra/notion/client";
-import { mapToProject } from "@/infra/notion/projects.mapper";
+import { mapToProject } from "@/infra/notion/mappers/projects.mapper";
 
 export class NotionProjectRepository implements ProjectRepository {
   constructor(private readonly databaseId: string) {}
