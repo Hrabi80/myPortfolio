@@ -1,7 +1,9 @@
+import { MarkdownRenderer } from "@/components/ui/markdown-renderer";
 import { Project } from "@/domain/entities/project.entity";
 import { ArrowRight } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import { NotionTag } from "@/components/ui/notion-tag";
 
 interface ProjectCardProps {
   project: Project;
@@ -32,18 +34,13 @@ export const ProjectCard = ({ project, index }: ProjectCardProps) => (
         {project.name}
       </h3>
 
-      <p className="mb-4 text-sm text-muted-foreground">
+     <MarkdownRenderer className="mb-4 text-muted-foreground">
         {project.summary}
-      </p>
+      </MarkdownRenderer>
 
       <div className="mb-4 flex flex-wrap gap-2">
         {project.tags && project.tags.map((tag, index) => (
-          <span
-            key={index}
-            className="rounded-full bg-secondary px-3 py-1 text-xs text-secondary-foreground"
-          >
-            {tag.name}
-          </span>
+          <NotionTag key={tag.id || index} tag={tag} />
         ))}
       </div>
 

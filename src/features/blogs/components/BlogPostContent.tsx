@@ -12,7 +12,7 @@ type BlogPostContentProps = {
 
 export function BlogPostContent({ post }: BlogPostContentProps) {
   return (
-    <Container size="md">
+    <Container size="lg">
       <Button variant="ghost" size="sm" asChild className="mb-8">
         <Link href="/blog">
           <ArrowLeft className="mr-2 h-4 w-4" /> Back to Blog
@@ -38,9 +38,12 @@ export function BlogPostContent({ post }: BlogPostContentProps) {
           <img src={post.coverImage} alt={post.title} className="h-auto w-full object-cover" />
         </div>
       ) : null}
-      <article className="rounded-3xl border border-border/60 bg-card/60 p-6 shadow-soft md:p-10">
+      
+      <article className="rounded-xl border border-border/60 bg-card/60 p-6 shadow-soft md:p-10">
         <NotionRenderer blocks={post.blocks ?? []} />
       </article>
-    </Container>
+      
+            </Container>
+
   );
 }

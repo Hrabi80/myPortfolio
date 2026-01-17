@@ -1,20 +1,20 @@
 "use client";
 import type { Project } from "@/domain/entities/project.entity";
 import { Container } from "@/components/layout/primitives";
-import { Badge } from "@/components/ui/badge";
+
 import { Button } from "@/components/ui/button";
 import { ArrowLeft, Github, Globe, Calendar, CheckCircle } from "lucide-react";
 import Link from "next/link";
 import { Gallery } from "@/components/ui/Gallery";
-import ReactMarkdown from "react-markdown";
 import { dateFormatter } from "@/utils/date";
+import { MarkdownRenderer } from "@/components/ui/markdown-renderer";
+import { NotionTag } from "@/components/ui/notion-tag";
 
 type ProjectClientProps = {
   project: Project;
 };
 
 export function ProjectClient({ project }: ProjectClientProps) {
-  console.log("🚀 ~ ProjectClient ~ project description:", project)
   const galleryImages = project.gallery ?? [];
 
   return (
@@ -28,49 +28,31 @@ export function ProjectClient({ project }: ProjectClientProps) {
         </Button>
         
         <div className="grid gap-12 lg:grid-cols-3">
-          {/* Main Content - Left (Wider) */}
+          {/* Main Content - Header Info */}
           <div className="lg:col-span-2 min-w-0 animate-fade-up opacity-0" style={{ animationFillMode: 'forwards' }}>
-            {/* Date */}
             <p className="mb-4 text-sm text-muted-foreground">
               {dateFormatter(project.publishedAt)}
             </p>
-
-            {/* Title */}
             <h1 className="mb-4 font-display text-4xl font-bold text-foreground md:text-5xl">
               {project.name}
             </h1>
-
-            {/* Summary (Primary) */}
             <p className="mb-6 text-xl font-medium text-primary">
               {project.subTitle}
             </p>
-
-            {/* Description (Secondary) */}
-            <p className="mb-6 text-muted-foreground">
+            <MarkdownRenderer className="mb-6 text-muted-foreground">
               {project.summary}
-            </p>
-
-            {/* Tags */}
+            </MarkdownRenderer>
             {project.tags?.length ? (
               <div className="mb-8 flex flex-wrap gap-2">
                 {project.tags.map((tag) => (
-                  <Badge key={tag.id} variant="secondary" className="rounded-full px-4 py-1.5">
-                    {tag.name}
-                  </Badge>
+                  <NotionTag key={tag.id} tag={tag} />
                 ))}
               </div>
             ) : null}
-
-            {/* Rich Content */}
-            <article className="prose prose-lg prose-neutral dark:prose-invert max-w-none w-full break-words prose-li:my-0 prose-ul:my-2 prose-p:leading-relaxed [&_li>p]:my-0">
-              <ReactMarkdown>
-                {project.description}
-              </ReactMarkdown>
-            </article>
           </div>
 
-          {/* Sidebar - Right */}
-          <div className="space-y-8 lg:col-span-1">
+          {/* Sidebar - Right (Mobile: Order 2, Desktop: Right Col) */}
+          <div className="space-y-8 lg:col-span-1 lg:row-span-2 h-fit">
             {/* Status Card */}
             <div className="rounded-2xl border border-border/50 bg-card p-6 shadow-soft opacity-0 animate-fade-up" style={{ animationDelay: '100ms', animationFillMode: 'forwards' }}>
               <div className="space-y-4">
@@ -114,6 +96,14 @@ export function ProjectClient({ project }: ProjectClientProps) {
                 <Gallery images={galleryImages} title="Project Gallery" />
               </div>
             )}
+          </div>
+
+          {/* Main Content - Rich Description (Mobile: Order 3) */}
+          <div className="lg:col-span-2 min-w-0 animate-fade-up opacity-0" style={{ animationFillMode: 'forwards', animationDelay: '150ms' }}>
+            {/* Rich Content */}
+            <MarkdownRenderer>
+              {project.description}
+            </MarkdownRenderer>
           </div>
         </div>
       </Container>
