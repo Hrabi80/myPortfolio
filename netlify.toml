@@ -1,5 +1,71 @@
-[build]
-  command = "npm run build"
+# Netlify Configuration for Portfolio
+# https://docs.netlify.com/configure-builds/file-based-configuration/
 
+# Build Settings
+[build]
+  command = "pnpm run build"
+  publish = ".next"
+  
+# Node.js version
+[build.environment]
+  NODE_VERSION = "20"
+  PNPM_FLAGS = "--shamefully-hoist"
+
+# Next.js Plugin
 [[plugins]]
   package = "@netlify/plugin-nextjs"
+
+# Headers for security and performance
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "DENY"
+    X-Content-Type-Options = "nosniff"
+    X-XSS-Protection = "1; mode=block"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    Permissions-Policy = "camera=(), microphone=(), geolocation=()"
+
+# Cache static assets
+[[headers]]
+  for = "/assets/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/_next/static/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+# Redirects and rewrites
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+  force = false
+  conditions = {Role = ["admin"]}
+
+# Build optimizations
+[build.processing]
+  skip_processing = false
+
+[build.processing.css]
+  bundle = true
+  minify = true
+
+[build.processing.js]
+  bundle = true
+  minify = true
+
+[build.processing.html]
+  pretty_urls = true
+
+[build.processing.images]
+  compress = true
+
+# Environment variables (set these in Netlify UI under Site settings > Environment variables)
+# Required variables:
+# - NOTION_TOKEN
+# - NOTION_PROJECTS_DATABASE_ID
+# - NOTION_BLOG_DATABASE_ID
+# - NEXT_PUBLIC_SITE_URL (set to your production URL, e.g., https://yourdomain.netlify.app)
+# - NEXT_PUBLIC_FORMSPREE_ID (if using Formspree)
