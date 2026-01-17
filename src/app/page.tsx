@@ -1,6 +1,7 @@
 import { HeroSection } from "@/components/sections/hero";
 import { SkillsSection } from "@/components/sections/skills";
 import { LatestProjectsSection } from "@/features/projects/components/LatestProjects";
+import { ExperienceSection } from "@/features/experience/components";
 import { BlogPreviewSection } from "@/features/blogs/components/blog-preview";
 import { ContactSection } from "@/components/sections/contact";
 import { Metadata } from "next";
@@ -36,6 +37,7 @@ export default function Home() {
       <HeroSection />
       <SkillsSection />
       <LatestProjectsSection />
+      <ExperienceSection />
       <BlogPreviewSection />
       <ContactSection />
     </>

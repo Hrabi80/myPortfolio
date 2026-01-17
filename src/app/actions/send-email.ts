@@ -1,9 +1,6 @@
 "use server";
 
-import { Resend } from "resend";
 import { z } from "zod";
-
-const resend = new Resend(process.env.RESEND_API_KEY);
 
 const formSchema = z.object({
   name: z.string().min(2, "Name must be at least 2 characters"),
@@ -37,28 +34,46 @@ export async function sendEmail(prevState: SendEmailState, formData: FormData): 
   const { name, email, subject, message } = validatedFields.data;
 
   try {
-    const { error } = await resend.emails.send({
-      from: "Portfolio Contact <onboarding@resend.dev>", // Update this with your verified domain if available
-      to: ["hrabi.ahmed8@gmail.com"],
-      subject: `New Contact Form Submission: ${subject}`,
-      replyTo: email,
-      text: `Name: ${name}\nEmail: ${email}\nSubject: ${subject}\nMessage: ${message}`,
-      html: `
-        <h1>New Contact Form Submission</h1>
-        <p><strong>Name:</strong> ${name}</p>
-        <p><strong>Email:</strong> ${email}</p>
-        <p><strong>Subject:</strong> ${subject}</p>
-        <p><strong>Message:</strong></p>
-        <p>${message}</p>
-      `,
-    });
+    const accessKey = process.env.WEB3FORMS_ACCESS_KEY;
 
-    if (error) {
-      console.error("Resend error:", error);
-      return { success: false, error: "Failed to send email", message: error.message };
+    if (!accessKey) {
+      console.error("WEB3FORMS_ACCESS_KEY is not configured");
+      return {
+        success: false,
+        error: "Configuration error",
+        message: "Contact form is not properly configured. Please contact the administrator.",
+      };
     }
 
-    return { success: true, message: "Email sent successfully!" };
+    const response = await fetch("https://api.web3forms.com/submit", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+      body: JSON.stringify({
+        access_key: accessKey,
+        name,
+        email,
+        subject: `Portfolio Contact: ${subject}`,
+        message,
+        from_name: name,
+        replyto: email,
+      }),
+    });
+
+    const data = await response.json();
+
+    if (data.success) {
+      return { success: true, message: "Email sent successfully!" };
+    } else {
+      console.error("Web3Forms error:", data);
+      return {
+        success: false,
+        error: "Failed to send email",
+        message: data.message || "Something went wrong. Please try again.",
+      };
+    }
   } catch (error) {
     console.error("Server error:", error);
     return { success: false, error: "Internal server error", message: "Something went wrong." };

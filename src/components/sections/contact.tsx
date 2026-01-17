@@ -4,19 +4,44 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
 import { toast } from "sonner";
 import { Mail, MapPin, Phone, Send, Github, Linkedin, Twitter } from "lucide-react";
 import { sendEmail } from "@/app/actions/send-email";
 
+const formSchema = z.object({
+  name: z.string().min(2, "Name must be at least 2 characters"),
+  email: z.string().email("Invalid email address"),
+  subject: z.string().min(2, "Subject must be at least 2 characters"),
+  message: z.string().min(10, "Message must be at least 10 characters"),
+});
+
+type FormData = z.infer<typeof formSchema>;
+
 export function ContactSection() {
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm<FormData>({
+    resolver: zodResolver(formSchema),
+    mode: "onBlur",
+  });
+
+  const onSubmit = async (data: FormData) => {
     setIsSubmitting(true);
 
-    const formData = new FormData(e.currentTarget);
-    
+    const formData = new FormData();
+    formData.append("name", data.name);
+    formData.append("email", data.email);
+    formData.append("subject", data.subject);
+    formData.append("message", data.message);
+
     try {
       const result = await sendEmail({}, formData);
 
@@ -24,13 +49,13 @@ export function ContactSection() {
         toast.success("Message sent! 🎉", {
           description: "Thank you for reaching out. I'll respond within 24 hours!",
         });
-        (e.target as HTMLFormElement).reset();
+        reset();
       } else {
         toast.error("Error sending message", {
           description: result.message || "Please try again later.",
         });
       }
-    } catch (error) {
+    } catch {
       toast.error("Something went wrong", {
         description: "Please try again later.",
       });
@@ -148,7 +173,7 @@ export function ContactSection() {
           {/* Contact Form */}
           <div className="lg:col-span-3 opacity-0 animate-fade-up stagger-2">
             <form
-              onSubmit={handleSubmit}
+              onSubmit={handleSubmit(onSubmit)}
               className="bg-card rounded-xl p-8 border border-border/50 shadow-soft"
             >
               <h3 className="font-display text-xl font-semibold text-foreground mb-6">
@@ -160,43 +185,51 @@ export function ContactSection() {
                   <div className="space-y-2">
                     <label className="text-sm font-medium text-foreground">Name</label>
                     <Input
-                      name="name"
+                      {...register("name")}
                       placeholder="John Doe"
-                      required
                       className="bg-background border-border/50 focus:border-primary h-12 rounded-md"
                     />
+                    {errors.name && (
+                      <p className="text-xs text-red-500 mt-1">{errors.name.message}</p>
+                    )}
                   </div>
                   <div className="space-y-2">
                     <label className="text-sm font-medium text-foreground">Email</label>
                     <Input
+                      {...register("email")}
                       type="email"
-                      name="email"
                       placeholder="john@example.com"
-                      required
                       className="bg-background border-border/50 focus:border-primary h-12 rounded-md"
                     />
+                    {errors.email && (
+                      <p className="text-xs text-red-500 mt-1">{errors.email.message}</p>
+                    )}
                   </div>
                 </div>
 
                 <div className="space-y-2">
                   <label className="text-sm font-medium text-foreground">Subject</label>
                   <Input
-                    name="subject"
+                    {...register("subject")}
                     placeholder="Project inquiry"
-                    required
                     className="bg-background border-border/50 focus:border-primary h-12 rounded-md"
                   />
+                  {errors.subject && (
+                    <p className="text-xs text-red-500 mt-1">{errors.subject.message}</p>
+                  )}
                 </div>
 
                 <div className="space-y-2">
                   <label className="text-sm font-medium text-foreground">Message</label>
                   <Textarea
-                    name="message"
+                    {...register("message")}
                     placeholder="Tell me about your project..."
-                    required
                     rows={5}
                     className="bg-background border-border/50 focus:border-primary resize-none rounded-md"
                   />
+                  {errors.message && (
+                    <p className="text-xs text-red-500 mt-1">{errors.message.message}</p>
+                  )}
                 </div>
 
                 <Button type="submit" variant="default" size="lg" className="w-full h-12 rounded-md" disabled={isSubmitting}>

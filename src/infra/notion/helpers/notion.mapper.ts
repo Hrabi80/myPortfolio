@@ -1,4 +1,4 @@
-import type { ContentBlock, RichTextSpan } from "@/domain/entities/content.entity";
+import type { ContentBlock, RichTextSpan } from "@/domain/entities/content-notion";
 import type { NotionBlock, NotionRichText } from "./notion.types";
 
 const map_rich_text = (rich_text: NotionRichText[]): RichTextSpan[] => {

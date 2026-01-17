@@ -2,7 +2,7 @@ import type { CSSProperties, ReactNode } from "react";
 import { Box } from "@/components/layout/primitives";
 import { cn } from "@/lib/utils";
 import { CodeBlock } from "./codeBlock";
-import type { ContentBlock, RichTextSpan } from "@/domain/entities/content.entity";
+import type { ContentBlock, RichTextSpan } from "@/domain/entities/content-notion";
 
 const COLOR_CLASSES: Record<string, string> = {
   gray: "text-muted-foreground",

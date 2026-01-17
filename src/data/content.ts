@@ -18,5 +18,8 @@ export const getFallbackPostBySlug = (slug: string) => {
   return fallback.posts.find((post) => post.slug === slug) ?? null;
 };
 
+export const getExperienceDate = () => {
+}
+
 
 

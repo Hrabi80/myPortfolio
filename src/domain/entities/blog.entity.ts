@@ -1,5 +1,5 @@
 import type { Tag } from "@/domain/entities/types";
-import type { ContentBlock } from "./content.entity";
+import type { ContentBlock } from "./content-notion";
 
 
 
