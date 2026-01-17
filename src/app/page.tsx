@@ -9,6 +9,9 @@ export const metadata: Metadata = {
   title: "Hrabi | Software Engineer",
   description:
     "Portfolio of Hrabi, a Software Engineer building high-performance web applications.",
+  alternates: {
+    canonical: "/",
+  },
   openGraph: {
     type: "website",
     locale: "en_US",
