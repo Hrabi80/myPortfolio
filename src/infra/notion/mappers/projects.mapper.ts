@@ -16,7 +16,7 @@ export const mapToProject = (page: PageObjectResponse): Project => {
     id: page.id,
     slug: getRichText(page, "slug"),
     name: getTitle(page, "name"),
-    summary: getRichText(page, "summary"),
+    summary: getRichTextMarkdown(page, "summary"),
     coverImage: getFile(page, "cover-image"),
     tags: getTags(page, "tags"),
     githubUrl: getUrl(page, "GitHub"),

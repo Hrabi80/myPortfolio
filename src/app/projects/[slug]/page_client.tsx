@@ -3,10 +3,11 @@ import type { Project } from "@/domain/entities/project.entity";
 import { Container } from "@/components/layout/primitives";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft, Github, Globe} from "lucide-react";
+import { ArrowLeft, Github, Globe, Calendar, CheckCircle } from "lucide-react";
 import Link from "next/link";
 import { Gallery } from "@/components/ui/Gallery";
 import ReactMarkdown from "react-markdown";
+import { dateFormatter } from "@/utils/date";
 
 type ProjectClientProps = {
   project: Project;
@@ -18,85 +19,104 @@ export function ProjectClient({ project }: ProjectClientProps) {
 
   return (
     <>
-      <Container size="lg">
-        <Button variant="ghost" size="sm" asChild className="mb-8">
+      <Container size="2xl">
+        {/* Back Link */}
+        <Button variant="ghost" size="sm" asChild className="mb-8 group pl-0 hover:bg-transparent hover:text-primary">
           <Link href="/projects">
-            <ArrowLeft className="mr-2 h-4 w-4" /> Back to Projects
+            <ArrowLeft className="mr-2 h-4 w-4 transition-transform group-hover:-translate-x-1" /> Back to Projects
           </Link>
         </Button>
         
-        {/* Header Section */}
-        <section className="grid gap-10 lg:grid-cols-[1.2fr_0.8fr]">
-          <div className="space-y-4">
-            <p className="text-sm text-muted-foreground">{project.publishedAt}</p>
-            <div>
-              <h1 className="mb-3 text-4xl font-bold tracking-tight">{project.name}</h1>
-              <p className="text-lg text-muted-foreground">{project.subTitle}</p>
-            </div>
-            <p className="text-base leading-7 text-foreground/90">{project.summary}</p>
+        <div className="grid gap-12 lg:grid-cols-3">
+          {/* Main Content - Left (Wider) */}
+          <div className="lg:col-span-2 min-w-0 animate-fade-up opacity-0" style={{ animationFillMode: 'forwards' }}>
+            {/* Date */}
+            <p className="mb-4 text-sm text-muted-foreground">
+              {dateFormatter(project.publishedAt)}
+            </p>
+
+            {/* Title */}
+            <h1 className="mb-4 font-display text-4xl font-bold text-foreground md:text-5xl">
+              {project.name}
+            </h1>
+
+            {/* Summary (Primary) */}
+            <p className="mb-6 text-xl font-medium text-primary">
+              {project.subTitle}
+            </p>
+
+            {/* Description (Secondary) */}
+            <p className="mb-6 text-muted-foreground">
+              {project.summary}
+            </p>
+
+            {/* Tags */}
             {project.tags?.length ? (
-              <div className="flex flex-wrap gap-2">
+              <div className="mb-8 flex flex-wrap gap-2">
                 {project.tags.map((tag) => (
-                  <Badge key={tag.id} variant="secondary">
+                  <Badge key={tag.id} variant="secondary" className="rounded-full px-4 py-1.5">
                     {tag.name}
                   </Badge>
                 ))}
               </div>
             ) : null}
-          </div>
 
-          <div className="rounded-2xl border border-border/60 bg-card p-6 shadow-soft">
-            <div className="space-y-4 text-sm">
-              <div className="flex items-center justify-between">
-                <span className="text-muted-foreground">Status</span>
-                <span className="font-medium capitalize">{project.status ?? "published"}</span>
-              </div>
-              <div className="flex items-center justify-between">
-                <span className="text-muted-foreground">Published</span>
-                <span className="font-medium">{project.publishedAt}</span>
-              </div>
-            </div>
-            <div className="mt-6 flex flex-wrap gap-3">
-              {project.githubUrl && (
-                <Button variant="outline" asChild>
-                  <Link href={project.githubUrl} target="_blank">
-                    <Github className="mr-2 h-4 w-4" /> View Code
-                  </Link>
-                </Button>
-              )}
-              {project.live && (
-                <Button asChild>
-                  <Link href={project.live} target="_blank">
-                    <Globe className="mr-2 h-4 w-4" /> Live
-                  </Link>
-                </Button>
-              )}
-            </div>
-          </div>
-        </section> 
-
-        {/* Main Content Grid */}
-        <div className="mt-16 grid gap-12 lg:grid-cols-3">
-          {/* Description Section - Left (Wider) */}
-          <section className="lg:col-span-2">
-            <h2 className="mb-6 text-3xl font-semibold tracking-tight">Overview</h2>
-            <div className="prose prose-lg prose-neutral dark:prose-invert max-w-none">
+            {/* Rich Content */}
+            <article className="prose prose-lg prose-neutral dark:prose-invert max-w-none w-full break-words prose-li:my-0 prose-ul:my-2 prose-p:leading-relaxed [&_li>p]:my-0">
               <ReactMarkdown>
                 {project.description}
               </ReactMarkdown>
-            </div>
-          </section>
+            </article>
+          </div>
 
-          {/* Gallery Section - Right */}
-          {galleryImages.length > 0 && (
-            <section className="lg:col-span-1">
-              <Gallery images={galleryImages} title="Project Gallery" />
-            </section>
-          )}
+          {/* Sidebar - Right */}
+          <div className="space-y-8 lg:col-span-1">
+            {/* Status Card */}
+            <div className="rounded-2xl border border-border/50 bg-card p-6 shadow-soft opacity-0 animate-fade-up" style={{ animationDelay: '100ms', animationFillMode: 'forwards' }}>
+              <div className="space-y-4">
+                <div className="flex items-center justify-between">
+                  <span className="text-muted-foreground">Status</span>
+                  <span className="flex items-center gap-2 font-medium text-foreground capitalize">
+                    <CheckCircle className="h-4 w-4 text-green-500" />
+                    {project.status ?? "published"}
+                  </span>
+                </div>
+                <div className="flex items-center justify-between">
+                  <span className="text-muted-foreground">Published</span>
+                  <span className="flex items-center gap-2 font-medium text-foreground">
+                    <Calendar className="h-4 w-4 text-muted-foreground" />
+                    {dateFormatter(project.publishedAt)}
+                  </span>
+                </div>
+              </div>
+
+              <div className="mt-6 flex flex-col gap-3">
+                {project.live && (
+                  <Button className="w-full" asChild>
+                    <Link href={project.live} target="_blank">
+                      <Globe className="mr-2 h-4 w-4" /> Live
+                    </Link>
+                  </Button>
+                )}
+                {project.githubUrl && (
+                  <Button variant="outline" className="w-full" asChild>
+                    <Link href={project.githubUrl} target="_blank">
+                      <Github className="mr-2 h-4 w-4" /> View Code
+                    </Link>
+                  </Button>
+                )}
+              </div>
+            </div>
+
+            {/* Gallery */}
+            {galleryImages.length > 0 && (
+              <div className="opacity-0 animate-fade-up" style={{ animationDelay: '200ms', animationFillMode: 'forwards' }}>
+                <Gallery images={galleryImages} title="Project Gallery" />
+              </div>
+            )}
+          </div>
         </div>
       </Container>
-
-     
     </>
   );
 }

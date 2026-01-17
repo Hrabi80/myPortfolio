@@ -33,7 +33,7 @@ export const ProjectCard = ({ project, index }: ProjectCardProps) => (
       </h3>
 
       <p className="mb-4 text-sm text-muted-foreground">
-        {project.description}
+        {project.summary}
       </p>
 
       <div className="mb-4 flex flex-wrap gap-2">
