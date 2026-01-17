@@ -5,6 +5,7 @@ import {
   getFile,
   getFiles,
   getRichText,
+  getRichTextMarkdown,
   getTags,
   getTitle,
   getUrl,
@@ -22,7 +23,7 @@ export const mapToProject = (page: PageObjectResponse): Project => {
     live: getUrl(page, "live"),
     publishedAt: getDate(page, "date"),
     subTitle: getRichText(page, "sub-title"),
-    description: getRichText(page, "description"),
+    description: getRichTextMarkdown(page, "description"),
     gallery: getFiles(page, "gallery"),
   };
 };

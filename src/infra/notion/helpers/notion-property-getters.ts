@@ -18,6 +18,38 @@ export const getRichText = (page: PageObjectResponse, property: string): string 
   return "";
 };
 
+export const getRichTextMarkdown = (page: PageObjectResponse, property: string): string => {
+  const prop = page.properties[property];
+  if (prop?.type !== "rich_text") {
+    return "";
+  }
+
+  return prop.rich_text
+    .map((text) => {
+      const { annotations } = text;
+      
+      // Split by newline to handle line breaks within a single rich text chunk
+      return text.plain_text.split('\n').map(line => {
+        let content = line;
+        
+        // Only apply formatting if there is content (avoid bolding empty strings)
+        if (content) {
+          if (annotations.bold) content = `**${content}**`;
+          if (annotations.italic) content = `*${content}*`;
+          if (annotations.strikethrough) content = `~~${content}~~`;
+          if (annotations.code) content = `\`${content}\``;
+          
+          if (text.href) {
+            content = `[${content}](${text.href})`;
+          }
+        }
+        
+        return content;
+      }).join('\n\n'); // Use double newline for paragraph breaks
+    })
+    .join("");
+};
+
 export const getMultiSelect = (page: PageObjectResponse, property: string): string[] => {
   const prop = page.properties[property];
   if (prop?.type === "multi_select") {

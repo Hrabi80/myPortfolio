@@ -1,25 +1,20 @@
 "use client";
-
-import { useState } from "react";
 import type { Project } from "@/domain/entities/project.entity";
 import { Container } from "@/components/layout/primitives";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft, Github, Globe, Maximize2, X } from "lucide-react";
+import { ArrowLeft, Github, Globe} from "lucide-react";
 import Link from "next/link";
-import Image from "next/image";
 import { Gallery } from "@/components/ui/Gallery";
-import { AnimatePresence, motion } from "framer-motion";
+import ReactMarkdown from "react-markdown";
 
 type ProjectClientProps = {
   project: Project;
 };
 
 export function ProjectClient({ project }: ProjectClientProps) {
-  const [isCoverLightboxOpen, setIsCoverLightboxOpen] = useState(false);
-  const heroImage = project.coverImage ?? project.gallery?.[0] ?? null;
-  // Filter out the hero image from the gallery to avoid duplication if it's the same
-  const galleryImages = project.gallery?.filter((img) => img !== heroImage) ?? [];
+  console.log("🚀 ~ ProjectClient ~ project description:", project)
+  const galleryImages = project.gallery ?? [];
 
   return (
     <>
@@ -72,93 +67,36 @@ export function ProjectClient({ project }: ProjectClientProps) {
               {project.live && (
                 <Button asChild>
                   <Link href={project.live} target="_blank">
-                    <Globe className="mr-2 h-4 w-4" /> Live Demo
+                    <Globe className="mr-2 h-4 w-4" /> Live
                   </Link>
                 </Button>
               )}
             </div>
           </div>
-        </section>
-
-        {/* Hero Image */}
-        {heroImage ? (
-          <section className="mt-12">
-            <div className="group relative overflow-hidden rounded-2xl border border-border/60 bg-card shadow-soft">
-              <Image
-                width={1400}
-                height={800}
-                src={heroImage}
-                alt={project.name}
-                className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
-                priority
-              />
-              <Button
-                variant="secondary"
-                size="sm"
-                className="absolute right-4 top-4 opacity-0 transition-opacity duration-300 group-hover:opacity-100"
-                onClick={() => setIsCoverLightboxOpen(true)}
-              >
-                <Maximize2 className="h-4 w-4" />
-              </Button>
-            </div>
-          </section>
-        ) : null}
+        </section> 
 
         {/* Main Content Grid */}
-        <div className="mt-12 grid gap-12 lg:grid-cols-2">
-          {/* Left Column: Description */}
-          <section className="rounded-2xl border border-border/60 bg-card/60 p-6 shadow-soft md:p-8 h-fit">
-            <h2 className="mb-4 text-2xl font-semibold">Overview</h2>
-            <div className="prose prose-neutral dark:prose-invert max-w-none">
-              <p className="text-base leading-7 text-muted-foreground whitespace-pre-wrap">
+        <div className="mt-16 grid gap-12 lg:grid-cols-3">
+          {/* Description Section - Left (Wider) */}
+          <section className="lg:col-span-2">
+            <h2 className="mb-6 text-3xl font-semibold tracking-tight">Overview</h2>
+            <div className="prose prose-lg prose-neutral dark:prose-invert max-w-none">
+              <ReactMarkdown>
                 {project.description}
-              </p>
+              </ReactMarkdown>
             </div>
           </section>
 
-          {/* Right Column: Gallery */}
+          {/* Gallery Section - Right */}
           {galleryImages.length > 0 && (
-            <section>
+            <section className="lg:col-span-1">
               <Gallery images={galleryImages} title="Project Gallery" />
             </section>
           )}
         </div>
       </Container>
 
-      {/* Cover Image Lightbox */}
-      <AnimatePresence>
-        {isCoverLightboxOpen && heroImage && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="fixed inset-0 z-50 flex items-center justify-center bg-black/95 backdrop-blur-sm p-4"
-            onClick={() => setIsCoverLightboxOpen(false)}
-          >
-            <Button
-              variant="ghost"
-              size="icon"
-              className="absolute right-4 top-4 text-white/70 hover:bg-white/10 hover:text-white"
-              onClick={() => setIsCoverLightboxOpen(false)}
-            >
-              <X className="h-6 w-6" />
-            </Button>
-            <motion.div
-              layoutId="cover-image"
-              className="relative max-h-[90vh] max-w-[90vw]"
-              onClick={(e) => e.stopPropagation()}
-            >
-              <Image
-                src={heroImage}
-                alt={`${project.name} cover`}
-                width={1600}
-                height={1200}
-                className="h-auto max-h-[90vh] w-auto object-contain"
-              />
-            </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+     
     </>
   );
 }
