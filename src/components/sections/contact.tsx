@@ -3,174 +3,211 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import * as z from "zod";
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
-import { FormspreeAdapter } from "@/infra/message/formspree.adapter";
 import { useState } from "react";
-import { Mail, MapPin, Phone } from "lucide-react";
-
-const formSchema = z.object({
-  name: z.string().min(2, "Name must be at least 2 characters"),
-  email: z.string().email("Invalid email address"),
-  message: z.string().min(10, "Message must be at least 10 characters"),
-});
-
-import { BlockWrapper } from "@/components/layout/block-wrapper";
+import { toast } from "sonner";
+import { Mail, MapPin, Phone, Send, Github, Linkedin, Twitter } from "lucide-react";
+import { sendEmail } from "@/app/actions/send-email";
 
 export function ContactSection() {
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [isSuccess, setIsSuccess] = useState(false);
 
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
-    defaultValues: {
-      name: "",
-      email: "",
-      message: "",
-    },
-  });
-
-  async function onSubmit(values: z.infer<typeof formSchema>) {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
     setIsSubmitting(true);
+
+    const formData = new FormData(e.currentTarget);
+    
     try {
-      const adapter = new FormspreeAdapter();
-      await adapter.send(values);
-      setIsSuccess(true);
-      form.reset();
+      const result = await sendEmail({}, formData);
+
+      if (result.success) {
+        toast.success("Message sent! 🎉", {
+          description: "Thank you for reaching out. I'll respond within 24 hours!",
+        });
+        (e.target as HTMLFormElement).reset();
+      } else {
+        toast.error("Error sending message", {
+          description: result.message || "Please try again later.",
+        });
+      }
     } catch (error) {
-      console.error("Failed to send message", error);
-      alert("Failed to send message. Please try again.");
+      toast.error("Something went wrong", {
+        description: "Please try again later.",
+      });
     } finally {
       setIsSubmitting(false);
     }
-  }
+  };
+
+  const contactInfo = [
+    {
+      icon: Mail,
+      label: "Email",
+      value: "hrabi.ahmed8@gmail.com",
+      href: "mailto:hrabi.ahmed8@gmail.com",
+    },
+    {
+      icon: Phone,
+      label: "Phone",
+      value: "+216 27 797 784",
+      href: "tel:+21627797784",
+    },
+    {
+      icon: MapPin,
+      label: "Location",
+      value: "Remote / Tunisia",
+      href: null,
+    },
+  ];
+
+  const socialLinks = [
+    { icon: Github, label: "GitHub", href: "https://github.com/Hrabi80" },
+    { icon: Linkedin, label: "LinkedIn", href: "https://linkedin.com/in/ahmed-hrabi" },
+    { icon: Twitter, label: "Twitter", href: "https://twitter.com/hrabi_dev" },
+  ];
 
   return (
-    <BlockWrapper size="medium" id="contact" className="bg-card/50">
-      <div className="mx-auto max-w-7xl px-6 lg:px-8">
-        <div className="mb-12 text-center opacity-0 animate-fade-up">
-          <p className="mb-2 font-medium text-primary">Get In Touch</p>
-          <h2 className="font-display text-3xl font-bold text-foreground md:text-4xl">
-            Let&apos;s Create Together
+    <section id="contact" className="py-24 relative overflow-hidden">
+      {/* Background decoration */}
+      <div className="absolute top-0 left-0 w-full h-full pointer-events-none">
+        <div className="absolute top-20 left-10 w-72 h-72 bg-primary/5 rounded-full blur-xl" />
+        <div className="absolute bottom-20 right-10 w-96 h-96 bg-accent/10 rounded-full blur-xl" />
+      </div>
+
+      <div className="max-w-7xl mx-auto px-6 lg:px-8 relative z-10">
+        {/* Header */}
+        <div className="text-center mb-16 opacity-0 animate-fade-up">
+          <p className="text-primary font-medium mb-2">Get In Touch</p>
+          <h2 className="font-display text-xl md:text-4xl font-bold text-foreground mb-4">
+            Let&apos;s Work Together
           </h2>
+          <p className="text-muted-foreground max-w-xl mx-auto">
+            Have a project in mind? Let&apos;s create something amazing together. 
+            I&apos;m always open to discussing new projects and opportunities.
+          </p>
         </div>
 
-        <div className="mx-auto grid max-w-5xl items-center gap-12 lg:grid-cols-2">
-          <div className="opacity-0 animate-fade-up stagger-1">
-            <img
-              src="/assets/contact-illustration.png"
-              alt="Contact illustration"
-              className="mx-auto mb-8 w-full max-w-xs animate-float"
-            />
-
+        <div className="grid lg:grid-cols-5 gap-12 max-w-6xl mx-auto">
+          {/* Contact Info */}
+          <div className="lg:col-span-2 space-y-8 opacity-0 animate-fade-up stagger-1">
+            {/* Info Cards */}
             <div className="space-y-4">
-              <div className="flex items-center gap-4">
-                <div className="flex h-12 w-12 items-center justify-center rounded-full bg-primary/10">
-                  <Mail className="h-5 w-5 text-primary" />
+              {contactInfo.map((item) => (
+                <div
+                  key={item.label}
+                  className="group flex items-center gap-4 p-4 bg-card rounded-xl border border-border/50 hover:border-primary/30 hover:shadow-soft transition-all duration-300"
+                >
+                  <div className="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center group-hover:bg-primary/20 transition-colors">
+                    <item.icon className="w-5 h-5 text-primary" />
+                  </div>
+                  <div>
+                    <p className="text-sm text-muted-foreground">{item.label}</p>
+                    {item.href ? (
+                      <a
+                        href={item.href}
+                        className="font-medium text-foreground hover:text-primary transition-colors"
+                      >
+                        {item.value}
+                      </a>
+                    ) : (
+                      <p className="font-medium text-foreground">{item.value}</p>
+                    )}
+                  </div>
                 </div>
-                <div>
-                  <p className="text-sm text-muted-foreground">Email</p>
-                  <p className="font-medium text-foreground">hello@hrabi.dev</p>
-                </div>
-              </div>
+              ))}
+            </div>
 
-              <div className="flex items-center gap-4">
-                <div className="flex h-12 w-12 items-center justify-center rounded-full bg-primary/10">
-                  <Phone className="h-5 w-5 text-primary" />
-                </div>
-                <div>
-                  <p className="text-sm text-muted-foreground">Phone</p>
-                  <p className="font-medium text-foreground">+216 27 797 784</p>
-                </div>
+            {/* Social Links */}
+            <div className="pt-6 border-t border-border">
+              <p className="text-sm text-muted-foreground mb-4">Follow me on</p>
+              <div className="flex gap-3">
+                {socialLinks.map((social) => (
+                  <a
+                    key={social.label}
+                    href={social.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="w-11 h-11 bg-card border border-border/50 rounded-xl flex items-center justify-center hover:bg-primary hover:text-primary-foreground hover:border-primary transition-all duration-300"
+                  >
+                    <social.icon className="w-5 h-5" />
+                  </a>
+                ))}
               </div>
+            </div>
 
-              <div className="flex items-center gap-4">
-                <div className="flex h-12 w-12 items-center justify-center rounded-full bg-primary/10">
-                  <MapPin className="h-5 w-5 text-primary" />
-                </div>
-                <div>
-                  <p className="text-sm text-muted-foreground">Location</p>
-                  <p className="font-medium text-foreground">Remote / Tunisia</p>
-                </div>
-              </div>
+            {/* Availability Badge */}
+            <div className="inline-flex items-center gap-3 px-4 py-3 bg-green-500/10 border border-green-500/20 rounded-full">
+              <span className="relative flex h-3 w-3">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-3 w-3 bg-green-500"></span>
+              </span>
+              <span className="text-sm font-medium text-green-600">Available for new projects</span>
             </div>
           </div>
 
-          <div className="opacity-0 animate-fade-up stagger-2">
-            {isSuccess ? (
-              <div className="rounded-2xl border border-border/50 bg-card p-8 text-center shadow-soft">
-                <h3 className="mb-2 text-xl font-semibold text-foreground">Message Sent!</h3>
-                <p className="text-muted-foreground">
-                  Thanks for reaching out. I&apos;ll get back to you soon.
-                </p>
-                <Button
-                  variant="hero-outline"
-                  className="mt-6"
-                  onClick={() => setIsSuccess(false)}
-                >
-                  Send Another Message
-                </Button>
-              </div>
-            ) : (
-              <Form {...form}>
-                <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-                  <div className="grid gap-4 md:grid-cols-2">
-                    <FormField
-                      control={form.control}
+          {/* Contact Form */}
+          <div className="lg:col-span-3 opacity-0 animate-fade-up stagger-2">
+            <form
+              onSubmit={handleSubmit}
+              className="bg-card rounded-xl p-8 border border-border/50 shadow-soft"
+            >
+              <h3 className="font-display text-xl font-semibold text-foreground mb-6">
+                Send a Message
+              </h3>
+
+              <div className="space-y-5">
+                <div className="grid md:grid-cols-2 gap-4">
+                  <div className="space-y-2">
+                    <label className="text-sm font-medium text-foreground">Name</label>
+                    <Input
                       name="name"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Your Name</FormLabel>
-                          <FormControl>
-                            <Input placeholder="John Doe" className="bg-background" {...field} />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                    <FormField
-                      control={form.control}
-                      name="email"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Your Email</FormLabel>
-                          <FormControl>
-                            <Input placeholder="john@example.com" className="bg-background" {...field} />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
+                      placeholder="John Doe"
+                      required
+                      className="bg-background border-border/50 focus:border-primary h-12 rounded-md"
                     />
                   </div>
+                  <div className="space-y-2">
+                    <label className="text-sm font-medium text-foreground">Email</label>
+                    <Input
+                      type="email"
+                      name="email"
+                      placeholder="john@example.com"
+                      required
+                      className="bg-background border-border/50 focus:border-primary h-12 rounded-md"
+                    />
+                  </div>
+                </div>
 
-                  <FormField
-                    control={form.control}
-                    name="message"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Your Message</FormLabel>
-                        <FormControl>
-                          <Textarea
-                            placeholder="Tell me about your project..."
-                            className="min-h-[160px] resize-none bg-background"
-                            {...field}
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
+                <div className="space-y-2">
+                  <label className="text-sm font-medium text-foreground">Subject</label>
+                  <Input
+                    name="subject"
+                    placeholder="Project inquiry"
+                    required
+                    className="bg-background border-border/50 focus:border-primary h-12 rounded-md"
                   />
-                  <Button type="submit" variant="hero" size="lg" className="w-full md:w-auto" disabled={isSubmitting}>
-                    {isSubmitting ? "Sending..." : "Send Message"}
-                  </Button>
-                </form>
-              </Form>
-            )}
+                </div>
+
+                <div className="space-y-2">
+                  <label className="text-sm font-medium text-foreground">Message</label>
+                  <Textarea
+                    name="message"
+                    placeholder="Tell me about your project..."
+                    required
+                    rows={5}
+                    className="bg-background border-border/50 focus:border-primary resize-none rounded-md"
+                  />
+                </div>
+
+                <Button type="submit" variant="default" size="lg" className="w-full h-12 rounded-md" disabled={isSubmitting}>
+                  <Send className="w-4 h-4 mr-2" />
+                  {isSubmitting ? "Sending..." : "Send Message"}
+                </Button>
+              </div>
+            </form>
           </div>
         </div>
       </div>
-    </BlockWrapper>
+    </section>
   );
 }

@@ -7,6 +7,13 @@ const nextConfig: NextConfig = {
         pathname: "/**",
         protocol: "https",
         hostname: "res.cloudinary.com",
+    
+      },
+      {
+        protocol: 'https',
+        hostname: 'www.notion.so',
+        port: '',
+        pathname: '/images/**',
       },
     ],
   },

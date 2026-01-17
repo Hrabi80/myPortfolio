@@ -20,7 +20,7 @@ export function HeroSection() {
                 alt="Hrabi portrait"
                 width={100}
                 height={100}
-                className="h-16 w-16 rounded-full border-2 border-primary/20 object-cover shadow-soft"
+                className="h-24 w-24 rounded-full border-2 border-primary/20 object-cover shadow-soft"
               />
               <div>
                 <p className="text-sm text-muted-foreground">
