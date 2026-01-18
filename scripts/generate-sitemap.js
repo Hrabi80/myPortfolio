@@ -1,7 +1,7 @@
 const fs = require("fs");
 const path = require("path");
 
-const SITE_URL = "https://hrabi.dev";
+const SITE_URL = "https://ahmed-hrabi.vercel.app";
 
 const staticPages = ["", "/projects", "/blog"];
 

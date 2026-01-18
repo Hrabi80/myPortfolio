@@ -2,71 +2,24 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>https://hrabi.dev</loc>
+    <loc>https://ahmed-hrabi.vercel.app/</loc>
     <lastmod>2025-12-30T10:12:50.206Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://hrabi.dev/projects</loc>
+    <loc>https://ahmed-hrabi.vercel.app/projects</loc>
     <lastmod>2025-12-30T10:12:50.206Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://hrabi.dev/blog</loc>
+    <loc>https://ahmed-hrabi.vercel.app/blog</loc>
     <lastmod>2025-12-30T10:12:50.206Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   
-  <url>
-    <loc>https://hrabi.dev/projects/project-alpha</loc>
-    <lastmod>2025-12-30T10:12:50.206Z</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://hrabi.dev/projects/project-beta</loc>
-    <lastmod>2025-12-30T10:12:50.206Z</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://hrabi.dev/projects/project-gamma</loc>
-    <lastmod>2025-12-30T10:12:50.206Z</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://hrabi.dev/projects/project-delta</loc>
-    <lastmod>2025-12-30T10:12:50.206Z</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  
-  <url>
-    <loc>https://hrabi.dev/blog/react-server-components</loc>
-    <lastmod>2025-12-30T10:12:50.206Z</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://hrabi.dev/blog/mastering-tailwind</loc>
-    <lastmod>2025-12-30T10:12:50.206Z</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://hrabi.dev/blog/web-dev-2024</loc>
-    <lastmod>2025-12-30T10:12:50.206Z</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://hrabi.dev/blog/why-typescript</loc>
-    <lastmod>2025-12-30T10:12:50.206Z</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
+
+
 </urlset>

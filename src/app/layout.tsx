@@ -17,19 +17,19 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://hrabi.dev"),
+  metadataBase: new URL("https://ahmed-hrabi.vercel.app"),
   title: {
     default: "Hrabi | Software Engineer",
     template: "%s | Hrabi",
   },
   description: "Portfolio of Hrabi, a Software Engineer building high-performance web applications.",
   keywords: ["Software Engineer", "Web Development", "Next.js", "React", "TypeScript", "Portfolio"],
-  authors: [{ name: "Hrabi", url: "https://hrabi.dev" }],
+  authors: [{ name: "Hrabi", url: "https://ahmed-hrabi.vercel.app" }],
   creator: "Hrabi",
   openGraph: {
     type: "website",
     locale: "en_US",
-    url: "https://hrabi.dev",
+    url: "https://ahmed-hrabi.vercel.app",
     siteName: "Hrabi Portfolio",
     title: "Hrabi | Software Engineer",
     description: "Portfolio of Hrabi, a Software Engineer building high-performance web applications.",

@@ -18,14 +18,14 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     locale: "en_US",
-    url: "https://hrabi.dev",
+    url: "https://ahmed-hrabi.vercel.app",
     siteName: "Hrabi Portfolio",
     title: "Hrabi | Software engineer",
     description:
       "Portfolio of Hrabi, a Software Engineer building high-performance web applications.",
     images: [
       {
-        url: "https://hrabi.dev/og-image.jpg",
+        url: "https://ahmed-hrabi.vercel.app/assets/avatar.webp",
         width: 1200,
         height: 630,
         alt: "Hrabi Portfolio",
