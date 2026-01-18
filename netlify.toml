@@ -10,6 +10,8 @@
 [build.environment]
   NODE_VERSION = "20"
   PNPM_FLAGS = "--shamefully-hoist"
+  # Allow NEXT_PUBLIC_* variables in build output (they're meant to be public)
+  SECRETS_SCAN_OMIT_KEYS = "NEXT_PUBLIC_SITE_URL,NEXT_PUBLIC_FORMSPREE_ID"
 
 # Next.js Plugin
 [[plugins]]
