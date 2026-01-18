@@ -18,6 +18,9 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://ahmed-hrabi.vercel.app"),
+  verification: {
+    google: "pMfgONRqAkzLfDlVP4NbsLsHHiOSPM6qZ79IQrkfK6k", 
+  },
   title: {
     default: "Hrabi | Software Engineer",
     template: "%s | Hrabi",
@@ -76,6 +79,7 @@ export default function RootLayout({
       className={`${geistSans.variable} ${geistMono.variable}`}
       suppressHydrationWarning
     >
+   
       <body className="antialiased">
         <div className="min-h-screen bg-background">
           <Header />
