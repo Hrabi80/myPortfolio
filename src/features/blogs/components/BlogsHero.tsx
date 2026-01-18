@@ -6,7 +6,7 @@ export function BlogsHero() {
       badge="Blog & Articles"
       title="Thoughts & Insights"
       description="Practical notes on architecture, product thinking, and the craft of building modern web experiences."
-      imageSrc="/assets/blog-illustration.png"
+      imageSrc="/assets/blog-illustration.webp"
     />
   );
 }

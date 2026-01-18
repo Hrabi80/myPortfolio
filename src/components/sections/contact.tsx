@@ -152,6 +152,7 @@ export function ContactSection() {
                     href={social.href}
                     target="_blank"
                     rel="noopener noreferrer"
+                    aria-label={social.label}
                     className="w-11 h-11 bg-card border border-border/50 rounded-xl flex items-center justify-center hover:bg-primary hover:text-primary-foreground hover:border-primary transition-all duration-300"
                   >
                     <social.icon className="w-5 h-5" />

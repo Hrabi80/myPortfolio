@@ -1,15 +1,12 @@
 import { Button } from "@/components/ui/button";
-import { Project } from "@/domain/entities/project.entity";
 import { fetchProjects } from "@/features/projects/services/fetch-projects";
 import { ArrowRight } from "lucide-react";
 import Link from "next/link";
 import { ProjectCard } from "./ProjectCard";
-import Image from "next/image";
 
 
 
 import { BlockWrapper } from "@/components/layout/block-wrapper";
-
 export async function LatestProjectsSection() {
   const projects = await fetchProjects();
   if(!projects || !projects.length)

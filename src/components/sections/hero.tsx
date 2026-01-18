@@ -13,13 +13,14 @@ export function HeroSection() {
 
       <div className="mx-auto w-full max-w-7xl px-6 lg:px-8">
         <div className="grid items-center gap-12 lg:grid-cols-2">
-          <div className="opacity-0 animate-fade-up">
+          <div>
             <div className="mb-6 flex items-center gap-4">
               <Image
-                src="/assets/avatar.png"
+                src="/assets/avatar.webp"
                 alt="Hrabi portrait"
                 width={100}
                 height={100}
+                priority
                 className="h-24 w-24 rounded-full border-2 border-primary/20 object-cover shadow-soft"
               />
               <div>
@@ -45,8 +46,10 @@ export function HeroSection() {
             </p>
 
             <div className="flex flex-wrap gap-4">
-              <Button variant="hero" size="lg">
-                <Link href="/#contact">Let’s Work Together</Link>
+              <Button variant="hero" size="lg" asChild>
+                <Link href="/assets/Ahmed_hrabi_RESUME.pdf" download>
+                  Download my CV
+                </Link>
               </Button>
               <Button variant="hero-outline" size="lg" asChild>
                 <Link href="/projects">View Projects</Link>
@@ -54,14 +57,18 @@ export function HeroSection() {
             </div>
           </div>
 
-          <div className="hidden md:flex justify-center opacity-0 animate-fade-up stagger-2">
+          <div className="hidden md:flex justify-center">
             <div className="relative">
               <Image
                 width={400}
                 height={400}
-                src="/assets/hero-illustration-5.png"
+                src="/assets/hero-illustration.webp"
                 alt="Developer workspace illustration"
                 className="w-full max-w-md animate-float"
+                priority
+                fetchPriority="high"
+                sizes="(max-width: 768px) 80vw, 400px"
+                quality={60}
               />
               <div className="absolute -top-4 -right-4 h-8 w-8 rounded-full bg-primary/20 animate-bounce-soft" />
               <div

@@ -4,18 +4,19 @@
     "title": "Full Stack Web Developer",
     "company": "QuoProd",
     "type": "Full-time",
-    "location": "Tunisia, Hammamet",
+    "location": "Hammamet, Tunisia",
     "workMode": "Hybrid",
     "period": "Mar 2025 - Present",
     "duration": "Current Position",
-    "summary": "Contributed to the development of a custom e-learning platform enabling full content and learning flow management.",
+    "summary": "Delivering a custom e-learning platform with multi-tenant access, interactive assessments, and analytics.",
     "responsibilities": [
       "Contributed to the development of a custom e-learning platform enabling full content and learning flow management.",
       "Implemented multi-tenant user access with role-based dashboards and permissions for Admin/Professor/Student, including dedicated dashboard experiences per role.",
-      "Built a complete Quiz Engine with multiple interactive formats and automatic CEFR result classification (A1, A2, B1, B2...).",
+      "Built a complete Quiz Engine with multiple interactive formats and automatic CEFR result classification (A1, A2, B1, B2...), including Drag & Drop, Fill in the Blanks, Word Matching, and Multiple Choice question types.",
+      "Generated CEFR-level results automatically after quiz completion based on sequential answering rules.",
       "Developed lesson management workflows including course structure, lesson content, and scheduled lesson instances (sessions planning and tracking).",
       "Created a document library system with folder-based organization to manage learning resources and internal documents.",
-      "Implemented notifications with real-time in-app updates using WebSockets and email sending using reusable templates.",
+      "Implemented notifications with real-time in-app updates using WebSockets and reusable email templates.",
       "Delivered dashboard analytics and statistics for admins to track engagement, progress, and performance."
     ],
     "achievements": [],
@@ -26,6 +27,7 @@
       "NodeJs",
       "MongoDB",
       "WebSockets",
+      "GraphQL",
       "MantineUI"
     ],
     "tools": [],
@@ -36,13 +38,13 @@
     "title": "Full Stack Web Developer",
     "company": "Expert Tech Consulting",
     "type": "Full-time",
-    "location": "Tunisia, Sfax",
+    "location": "Sfax, Tunisia",
     "workMode": "Remote",
-    "period": "July 2024 - Feb 2025",
-    "duration": "8 months",
-    "summary": "Designed and developed a scalable job marketplace platform inspired by Glassdoor, featuring company profiles, job postings, and employee review.",
+    "period": "Aug 2024 - Feb 2025",
+    "duration": "7 months",
+    "summary": "Built marketplace capabilities inspired by Glassdoor with end-to-end hiring workflows.",
     "responsibilities": [
-      "Designed and developed a scalable job marketplace platform inspired by Glassdoor, featuring company profiles, job postings, and employee review.",
+      "Contributed to the development of a job marketplace platform inspired by Glassdoor, featuring company profiles, job postings, and employee review.",
       "Built a robust candidature management system enabling recruiters to post job opportunities, track applications, and manage candidate interactions efficiently.",
       "Created custom user dashboards for employers and candidates, enhancing platform usability."
     ],
@@ -51,65 +53,62 @@
     "tools": ["Agile Development"],
     "color": "from-blue-500/20 via-indigo-500/10 to-violet-500/20"
   },
- 
-
+  {
+    "id": "therapyalign",
+    "title": "Full Stack Web Developer",
+    "company": "TherapyAlign",
+    "type": "Part-time",
+    "location": "Canada",
+    "workMode": "Remote",
+    "period": "Mar 2024 - Mar 2025",
+    "duration": "1 year 1 month",
+    "summary": "Designed and delivered a healthcare specialist matching platform with admin and doctor workflows.",
+    "responsibilities": [
+      "Spearheaded the design and development of a healthcare specialist matching application, enabling users to find and connect with the most suitable healthcare providers based on their needs.",
+      "Led the end-to-end development of the platform, including the creation of admin and doctor dashboards, streamlining user management and improving operational efficiency.",
+      "Designed and implemented a dynamic questionnaire system integrated with a quota calculation engine, ensuring accurate matching of users with specialized healthcare professionals.",
+      "Enhanced user experience by integrating a filtering solution with an interactive map view using LeafletJS, allowing users to easily locate specialists and access critical information.",
+      "Helped in the implementation of CI/CD pipelines on Azure."
+    ],
+    "achievements": [],
+    "skills": [
+      "NodeJs",
+      "Express.js (TypeScript)",
+      "MySQL",
+      "Angular",
+      "NextJs",
+      "ReactJs",
+      "LeafletJS"
+    ],
+    "tools": ["CI/CD", "Gitlab Runner", "Gitlab CI", "Microsoft Azure"],
+    "color": "from-amber-500/20 via-orange-500/10 to-rose-500/20"
+  },
   {
     "id": "smart-business",
-    "title": "Full Stack Software Engineer",
+    "title": "Full Stack Web Developer",
     "company": "Smart Business Challenge",
     "type": "Full-time",
     "location": "Megrine, Tunisia",
     "workMode": "Hybrid",
     "period": "Nov 2022 - Feb 2024",
     "duration": "1 year 4 months",
-    "summary": "Contributed to the development of a CRM project.",
+    "summary": "Developed CRM capabilities for Groupe STRAM with scalable workflows and candidate management.",
     "responsibilities": [
-      "Contributed to the development of a CRM project.",
-      "Implemented a dynamic drag-and-drop system, improving the visual representation and user interaction within the project.",
-      "Introduced a galleries library system, linked to various stages and statuses of the CRM project, enhancing overall functionality.",
-      "Architected resumes storage library, implementing a specified filtering mechanism using Ag-grid."
+      "Developed a CRM platform dedicated to Groupe STRAM (Tunisian construction organization), designed with scalability for commercialization.",
+      "Collaborated with a marketing specialist to design and refine multi-stage customer engagement processes.",
+      "Built a dynamic drag-and-drop system to improve visual workflow and user interaction.",
+      "Introduced a media gallery module linked to project stages and statuses to enhance operational clarity.",
+      "Designed and implemented a resume storage and candidate selection module with advanced filtering using Ag-Grid."
     ],
     "achievements": [],
     "skills": [
-      "NodeJs",
-      "ExpressJs",
-      "Symfony 3.4",
+      "Symfony 3.4/5",
       "Angular",
       "CSS",
       "Docker",
-      "Ag-grid"
+      "Ag-Grid"
     ],
-    "tools": ["Unit tests", "Jasmine", "Karma", "Agile Development"],
+    "tools": ["Jasmine", "Karma", "Agile Development"],
     "color": "from-purple-500/20 via-violet-500/10 to-indigo-500/20"
-  },
-  {
-    "id": "smartgalaxy",
-    "title": "End of Study Internship",
-    "company": "SmartGalaxy",
-    "type": "Internship",
-    "location": "Nabeul, Tunisia",
-    "workMode": "On-site",
-    "period": "Feb 2022 - Jul 2022",
-    "duration": "6 months",
-    "summary": "Designed and deployed a marketplace for trading pre-owned Apple products, empowering users to list their items.",
-    "responsibilities": [
-      "Designed and deployed a marketplace for trading pre-owned Apple products, empowering users to list their items.",
-      "Established intuitive user profiles, an efficient admin panel, and a product details.",
-      "Implemented shopping cart functionality, streamlining the purchasing process for sellers.",
-      "Helped in the implementation of CI/CD pipelines on Azure."
-    ],
-    "achievements": [],
-    "skills": [
-      "NodeJs",
-      "ExpressJs",
-      "Angular",
-      "MongoDB",
-      "CI/CD",
-      "Gitlab-runner",
-      "Gitlab-CI",
-      "Microsoft Azure"
-    ],
-    "tools": [],
-    "color": "from-cyan-500/20 via-sky-500/10 to-blue-500/20"
   }
 ]

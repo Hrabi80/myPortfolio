@@ -6,7 +6,7 @@ export function ProjectsHero() {
       badge="My Work"
       title="Featured Projects"
       description="A curated collection of work showcasing product strategy, engineering depth, and polished user experiences."
-      imageSrc="/assets/projects-illustration.png"
+      imageSrc="/assets/projects-illustration.webp"
     />
   );
 }

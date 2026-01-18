@@ -1,3 +1,4 @@
+
 import { BlogCard } from "@/features/blogs/components/blogCard";
 import type { fetchBlogs } from "@/features/blogs/services/fetch-blogs";
 

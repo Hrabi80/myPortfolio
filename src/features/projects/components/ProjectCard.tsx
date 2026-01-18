@@ -23,6 +23,7 @@ export const ProjectCard = ({ project, index }: ProjectCardProps) => (
             height={450} // Adjust the height for the aspect ratio
             src={project.coverImage ?? project.gallery?.[0] ?? ""}
             alt={project.name}
+            loading="lazy"
             className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
           />
         ) : (

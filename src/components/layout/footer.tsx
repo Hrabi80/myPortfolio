@@ -20,6 +20,7 @@ export function Footer() {
               href="https://github.com"
               target="_blank"
               rel="noopener noreferrer"
+              aria-label="GitHub"
               className="flex h-10 w-10 items-center justify-center rounded-full bg-secondary text-secondary-foreground transition-all duration-300 hover:bg-primary hover:text-primary-foreground"
             >
               <Github className="h-5 w-5" />
@@ -28,11 +29,20 @@ export function Footer() {
               href="https://linkedin.com"
               target="_blank"
               rel="noopener noreferrer"
+              aria-label="LinkedIn"
               className="flex h-10 w-10 items-center justify-center rounded-full bg-secondary text-secondary-foreground transition-all duration-300 hover:bg-primary hover:text-primary-foreground"
             >
               <Linkedin className="h-5 w-5" />
             </a>
-            
+            <a
+              href="https://twitter.com/hrabi_dev"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Twitter"
+              className="flex h-10 w-10 items-center justify-center rounded-full bg-secondary text-secondary-foreground transition-all duration-300 hover:bg-primary hover:text-primary-foreground"
+            >
+              <Twitter className="h-5 w-5" />
+            </a>
           </div>
         </div>
 
