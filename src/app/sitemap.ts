@@ -1,59 +1,77 @@
 import type { MetadataRoute } from "next";
-import experienceData from "@/data/experience.json";
-import fallbackData from "@/data/data.json";
+import experience_data from "@/data/experience.json";
+import fallback_data from "@/data/data.json";
 
-type ProjectLite = { slug: string; publishedAt?: string; status?: string };
+type ProjectLite = {
+  slug: string;
+  publishedAt?: string;
+  status?: string;
+};
+
+function safe_date(date_str?: string, fallback: Date = new Date()): Date {
+  if (!date_str) {
+    return fallback;
+  }
+
+  const parsed = new Date(date_str);
+  return Number.isNaN(parsed.getTime()) ? fallback : parsed;
+}
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl =
-    (process.env.NEXT_PUBLIC_SITE_URL ?? "https://ahmed-hrabi.vercel.app").replace(/\/$/, "");
-  const lastModified = new Date();
+  const base_url = (process.env.NEXT_PUBLIC_SITE_URL ?? "https://ahmed-hrabi.vercel.app").replace(
+    /\/$/,
+    "",
+  );
 
-  const projects = (fallbackData as { projects: ProjectLite[] }).projects ?? [];
-  const experiences = experienceData as { id: string }[];
+  const last_modified = new Date();
 
-  const projectEntries: MetadataRoute.Sitemap = projects
-    .filter((project) => project.status !== "unpublished")
+  const projects = (fallback_data as { projects?: ProjectLite[] }).projects ?? [];
+  const experiences = experience_data as { id: string }[];
+
+  const project_entries: MetadataRoute.Sitemap = projects
+    .filter((project) => project.status !== "unpublished" && project.slug)
     .map((project) => ({
-      url: `${baseUrl}/projects/${project.slug}`,
-      lastModified: project.publishedAt ? new Date(project.publishedAt) : lastModified,
+      url: `${base_url}/projects/${project.slug}`,
+      lastModified: safe_date(project.publishedAt, last_modified),
       changeFrequency: "monthly",
       priority: 0.6,
     }));
 
-  const experienceEntries: MetadataRoute.Sitemap = experiences.map((experience) => ({
-    url: `${baseUrl}/experience/${experience.id}`,
-    lastModified,
-    changeFrequency: "yearly",
-    priority: 0.4,
-  }));
+  const experience_entries: MetadataRoute.Sitemap = experiences
+    .filter((experience) => experience.id)
+    .map((experience) => ({
+      url: `${base_url}/experience/${experience.id}`,
+      lastModified: last_modified,
+      changeFrequency: "yearly",
+      priority: 0.4,
+    }));
 
   return [
     {
-      url: baseUrl,
-      lastModified,
+      url: base_url,
+      lastModified: last_modified,
       changeFrequency: "weekly",
       priority: 1,
     },
     {
-      url: `${baseUrl}/projects`,
-      lastModified,
+      url: `${base_url}/projects`,
+      lastModified: last_modified,
       changeFrequency: "weekly",
       priority: 0.8,
     },
     {
-      url: `${baseUrl}/blog`,
-      lastModified,
+      url: `${base_url}/blog`,
+      lastModified: last_modified,
       changeFrequency: "weekly",
       priority: 0.7,
     },
     {
-      url: `${baseUrl}/experience`,
-      lastModified,
+      url: `${base_url}/experience`,
+      lastModified: last_modified,
       changeFrequency: "monthly",
       priority: 0.7,
     },
-    ...projectEntries,
-    ...experienceEntries,
+    ...project_entries,
+    ...experience_entries,
   ];
 }
