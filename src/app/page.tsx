@@ -6,6 +6,8 @@ import { BlogPreviewSection } from "@/features/blogs/components/blog-preview";
 import { ContactSection } from "@/components/sections/contact";
 import { Metadata } from "next";
 
+export const revalidate = 60; // Revalidate every 60 seconds
+
 export const metadata: Metadata = {
   title: "Hrabi | Software Engineer",
   description:

@@ -5,6 +5,8 @@ import {
   fetchBlogs,
 } from "@/features/blogs/services/fetch-blogs";
 
+export const revalidate = 60; // Revalidate every 60 seconds
+
 export async function generateStaticParams() {
   const posts = await fetchBlogs();
   return posts.map((post) => ({ slug: post.slug }));

@@ -2,6 +2,8 @@ import { ProjectClient } from "./page_client";
 import { ProjectNotFound } from "@/features/projects/components/ProjectNotFound";
 import { fetchProjectBySlug } from "@/features/projects/services/fetch-projects";
 
+export const revalidate = 60; // Revalidate every 60 seconds
+
 export default async function ProjectPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
   const project = await fetchProjectBySlug(slug);
