@@ -1,13 +1,13 @@
-# Hrabi Portfolio
+# Hrabi Portfolio using Notion API to write blogs and add projects
 
-Notion-inspired, static-export friendly portfolio built with Next.js App Router. It ships a clean landing page, projects and blog routes, a contact form that works on static hosting, and a minimal Notion block renderer.
+Portfolio built with Next.js App Router and Notion blog posting . It ships a clean landing page, projects and blog route, and a minimal Notion block renderer.
 
 ## Stack
 
 - Next.js App Router with static export
 - React 19 + TypeScript
 - Tailwind CSS + shadcn/ui + Radix
-- Notion SDK (build-time only)
+- Notion SDK
 - react-hook-form + @hookform/resolvers + zod
 - framer-motion
 - pnpm
@@ -17,7 +17,7 @@ Notion-inspired, static-export friendly portfolio built with Next.js App Router.
 1) Copy env template:
 
 ```bash
-cp .env.example .env.local
+cp .env.example 
 ```
 
 2) Install dependencies:
@@ -49,8 +49,7 @@ The static output is generated in `out/`.
 ## Scripts
 
 - `pnpm dev` Run Next.js in development
-- `pnpm build` Build with static export to `out/`
-- `pnpm lint` Run ESLint
+- `pnpm build --webpack` 
 - `node scripts/generate-sitemap.js` Generate `public/sitemap.xml`
 
 Edit `SITE_URL` in `scripts/generate-sitemap.js` to match your domain.
@@ -93,31 +92,13 @@ Current routes read from Notion when configured and fall back to `src/data/data.
 
 Edit fallback content in `src/data/data.json`.
 
-To wire Notion data, fetch and map content in server components at build time using the helpers in `src/infra/notion` and keep any tokens server-only.
+To wire Notion data, fetch and map content in server components using the helpers in `src/infra/notion` and keep any tokens server-only.
 
-## Contact and email
-
-The UI depends on the `MessageSender` port in `src/domain/ports`.
-
-- `FormspreeAdapter` posts directly to Formspree and is safe for static hosting.
-- `ResendAdapter` is a server-side reference only. Use it only if you add a worker or server to handle requests.
-
-The WhatsApp button lives at `src/components/ui/whatsapp-button.tsx`.
-
-## Static export notes
-
-- `next.config.ts` uses `output: "export"`, `trailingSlash: true`, and `images.unoptimized: true`.
-- Dynamic routes use `generateStaticParams` to produce build-time slugs.
-- `next build` generates the static site in `out/` and can be hosted on any static provider.
-
-## AI assistant notes
-
-- Keep App Router and static export compatibility. No API routes and no server actions.
+## notes for AI ( in case you will use an AI agent )
 - Notion fetches must happen only at build time in server components; never expose the Notion token to the client.
 - Continue using the domain/ports and infra layering; UI depends on ports.
 - Favor layout primitives (`Box`, `Flex`, `Grid`, `Container`) from `src/components/layout/primitives.tsx` over ad-hoc Tailwind in sections.
-- Validate data with zod and keep env parsing in `src/env.ts`.
-- Forms should use react-hook-form + @hookform/resolvers and send via `MessageSender`.
+
 
 ## Troubleshooting
 
