@@ -64,7 +64,6 @@ export async function sendEmail(prevState: SendEmailState, formData: FormData): 
       },
       body: body,
     });
-    console.log("🚀 ~ sendEmail ~ body:", body)
 
     const responseText = await response.text();
     const contentType = response.headers.get("content-type") || "";
