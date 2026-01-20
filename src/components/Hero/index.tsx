@@ -47,7 +47,7 @@ export function Hero({ badge, title, description, imageSrc }: HeroProps) {
 
           <div className="flex justify-center animate-fade-up stagger-1">
             <div className="relative">
-              {/* image halo */}
+              {/* image hero */}
 
               
                 <Image

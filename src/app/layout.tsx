@@ -37,7 +37,7 @@ export const metadata: Metadata = {
     description: "Portfolio of Hrabi, a Software Engineer building high-performance web applications.",
     images: [
       {
-        url: "/og-image.jpg",
+        url: "/og-image.webp",
         width: 1200,
         height: 630,
         alt: "Hrabi Portfolio",
@@ -48,7 +48,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Hrabi | Software Engineer",
     description: "Portfolio of Hrabi, a Software Engineer building high-performance web applications.",
-    images: ["/og-image.jpg"],
+    images: ["/og-image.webp"],
     creator: "@hrabi", // Replace with actual handle if available
   },
   robots: {
