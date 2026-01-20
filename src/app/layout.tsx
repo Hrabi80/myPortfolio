@@ -15,11 +15,10 @@ const geistMono = Geist_Mono({
   variable: "--font-mono",
   subsets: ["latin"],
 });
-
 export const metadata: Metadata = {
   metadataBase: new URL("https://ahmed-hrabi.vercel.app"),
   verification: {
-    google: "pMfgONRqAkzLfDlVP4NbsLsHHiOSPM6qZ79IQrkfK6k", 
+    google: "yKz9iF09ziR6NHnU7IS1A4-kNJ3y3opq-_HsUwSYpzg", 
   },
   title: {
     default: "Hrabi | Software Engineer",

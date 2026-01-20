@@ -7,6 +7,7 @@ const envSchema = z.object({
   NOTION_BLOG_DATABASE_ID: z.string().min(1).optional(),
   NEXT_PUBLIC_SITE_URL: z.string().url().default("http://localhost:3000"),
   NEXT_PUBLIC_FORMSPREE_ID: z.string().optional(),
+  WEB3FORMS_ACCESS_KEY: z.string().optional(),
 });
 
 export const env = envSchema.parse({
@@ -16,4 +17,5 @@ export const env = envSchema.parse({
   NOTION_BLOG_DATABASE_ID: process.env.NOTION_BLOG_DATABASE_ID,
   NEXT_PUBLIC_SITE_URL: process.env.NEXT_PUBLIC_SITE_URL,
   NEXT_PUBLIC_FORMSPREE_ID: process.env.NEXT_PUBLIC_FORMSPREE_ID,
+  WEB3FORMS_ACCESS_KEY: process.env.WEB3FORMS_ACCESS_KEY,
 });
