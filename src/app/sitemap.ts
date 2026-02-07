@@ -1,12 +1,11 @@
 import type { MetadataRoute } from "next";
 import experience_data from "@/data/experience.json";
-import fallback_data from "@/data/data.json";
+import { fetchBlogs } from "@/features/blogs/services/fetch-blogs";
+import { fetchProjects } from "@/features/projects/services/fetch-projects";
 
-type ProjectLite = {
-  slug: string;
-  publishedAt?: string;
-  status?: string;
-};
+export const revalidate = 3600; // Regenerate sitemap every hour
+
+
 
 function safe_date(date_str?: string, fallback: Date = new Date()): Date {
   if (!date_str) {
@@ -17,7 +16,16 @@ function safe_date(date_str?: string, fallback: Date = new Date()): Date {
   return Number.isNaN(parsed.getTime()) ? fallback : parsed;
 }
 
-export default function sitemap(): MetadataRoute.Sitemap {
+function is_public_status(status?: string): boolean {
+  if (!status) {
+    return true;
+  }
+
+  const normalized = status.toLowerCase().trim();
+  return !["unpublished", "draft", "private", "hidden"].includes(normalized);
+}
+
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const base_url = (process.env.NEXT_PUBLIC_SITE_URL ?? "https://ahmed-hrabi.vercel.app").replace(
     /\/$/,
     "",
@@ -25,11 +33,11 @@ export default function sitemap(): MetadataRoute.Sitemap {
 
   const last_modified = new Date();
 
-  const projects = (fallback_data as { projects?: ProjectLite[] }).projects ?? [];
+  const projects = (await fetchProjects()) as { slug?: string; status?: string; publishedAt?: string }[];
   const experiences = experience_data as { id: string }[];
 
   const project_entries: MetadataRoute.Sitemap = projects
-    .filter((project) => project.status !== "unpublished" && project.slug)
+    .filter((project) => project.status !== "unpublished" && Boolean(project.slug))
     .map((project) => ({
       url: `${base_url}/projects/${project.slug}`,
       lastModified: safe_date(project.publishedAt, last_modified),
@@ -38,13 +46,37 @@ export default function sitemap(): MetadataRoute.Sitemap {
     }));
 
   const experience_entries: MetadataRoute.Sitemap = experiences
-    .filter((experience) => experience.id)
+    .filter((experience) => Boolean(experience.id))
     .map((experience) => ({
       url: `${base_url}/experience/${experience.id}`,
       lastModified: last_modified,
       changeFrequency: "yearly",
       priority: 0.4,
     }));
+
+  let blog_entries: MetadataRoute.Sitemap = [];
+
+  try {
+    const posts = (await fetchBlogs());
+
+    blog_entries = posts
+      .filter((post) => Boolean(post?.slug))
+      .filter((post) => (typeof post.publishedAt === "boolean" ? post.publishedAt : true))
+      .filter((post) => is_public_status(post.status))
+      .map((post) => {
+        const date_str = post.publishedAt ;
+
+        return {
+          url: `${base_url}/blog/${post.slug}`,
+          lastModified: safe_date(date_str, last_modified),
+          changeFrequency: "monthly",
+          priority: 0.7,
+        };
+      });
+  } catch (error) {
+    console.error("Sitemap: failed to fetch blogs", error);
+    blog_entries = [];
+  }
 
   return [
     {
@@ -73,5 +105,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
     },
     ...project_entries,
     ...experience_entries,
+    ...blog_entries,
   ];
 }

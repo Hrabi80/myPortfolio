@@ -36,7 +36,6 @@ export async function sendEmail(prevState: SendEmailState, formData: FormData): 
 
   try {
     const accessKey = env.WEB3FORMS_ACCESS_KEY;
-    console.log("🚀 ~ sendEmail ~ accessKey:", accessKey)
 
     if (!accessKey) {
       console.error("WEB3FORMS_ACCESS_KEY is not configured");
