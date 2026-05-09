@@ -4,7 +4,6 @@ import "./globals.css";
 import { Header } from "@/components/layout/header";
 import { Footer } from "@/components/layout/footer";
 import { WhatsAppButton } from "@/components/ui/whatsapp-button";
-import { Toaster } from "sonner";
 
 const poppins = Poppins({
   variable: "--font-sans",
@@ -188,7 +187,6 @@ export default function RootLayout({
           <main id="main-content">{children}</main>
           <Footer />
           <WhatsAppButton />
-          <Toaster richColors />
         </div>
       </body>
     </html>

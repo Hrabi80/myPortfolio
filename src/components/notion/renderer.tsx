@@ -117,6 +117,8 @@ const renderBlock = (block: ContentBlock) => {
           <img
             src={url}
             alt="Notion image"
+            loading="lazy"
+            decoding="async"
             className="w-full rounded-xl border border-border/60 bg-muted object-cover shadow-soft"
           />
         </figure>
