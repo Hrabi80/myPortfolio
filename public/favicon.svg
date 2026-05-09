@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 192 192" role="img" aria-label="Ahmed Hrabi portfolio icon">
+  <defs>
+    <linearGradient id="mark" x1="36" y1="28" x2="156" y2="164" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#9ff7d3" />
+      <stop offset="0.48" stop-color="#48d99d" />
+      <stop offset="1" stop-color="#19a977" />
+    </linearGradient>
+    <linearGradient id="edge" x1="44" y1="36" x2="148" y2="156" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#d7fff0" stop-opacity="0.86" />
+      <stop offset="1" stop-color="#16302b" stop-opacity="0.34" />
+    </linearGradient>
+    <filter id="glow" x="-20%" y="-20%" width="140%" height="140%" color-interpolation-filters="sRGB">
+      <feDropShadow dx="0" dy="10" stdDeviation="11" flood-color="#48d99d" flood-opacity="0.35" />
+    </filter>
+  </defs>
+  <rect width="192" height="192" rx="42" fill="#1e252d" />
+  <path d="M24 64h144M24 96h144M24 128h144M64 24v144M96 24v144M128 24v144" stroke="#ffffff" stroke-opacity="0.055" stroke-width="2" />
+  <rect x="48" y="48" width="96" height="96" rx="20" fill="url(#mark)" filter="url(#glow)" transform="rotate(45 96 96)" />
+  <rect x="52" y="52" width="88" height="88" rx="17" fill="none" stroke="url(#edge)" stroke-width="5" transform="rotate(45 96 96)" />
+  <path d="M66 127V65h18v23h24V65h18v62h-18v-24H84v24H66Z" fill="#10181d" />
+  <path d="M72 121V71h6v23h36V71h6v50h-6V99H78v22h-6Z" fill="#f5fffb" fill-opacity="0.96" />
+</svg>
