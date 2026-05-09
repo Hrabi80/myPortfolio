@@ -23,8 +23,8 @@ export function HeroSection() {
           </h1>
 
           <p className="mt-6 max-w-xl text-base leading-8 text-muted-foreground md:text-lg">
-            I am Ahmed Hrabi, a Tunisia-based full-stack software engineer
-            focused on clean, reliable, and SEO-friendly web platforms with
+            I am Ahmed Hrabi, a Tunisia full-stack software engineer
+            focused on clean, reliable, scalable, and SEO-friendly web platforms with
             Next.js, TypeScript, Node.js, and modern CMS workflows.
           </p>
 
@@ -54,7 +54,7 @@ export function HeroSection() {
             </div>
             <div>
               <dt className="text-muted-foreground">Focus</dt>
-              <dd className="font-display text-2xl text-primary">SEO</dd>
+              <dd className="font-display text-2xl text-primary">SEO & Scalability</dd>
             </div>
           </dl>
         </div>

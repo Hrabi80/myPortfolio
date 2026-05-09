@@ -25,8 +25,8 @@ export function IsoScene() {
 {`const hrabi = {
   role: "Full-Stack Engineer",
   base: "Tunisia",
-  stack: ["Next.js", "NestJS", "TS"],
-  content: "Notion CMS",
+  stack: ["Next.js", "NestJS", "TS", "Node.js"],
+  content: "Payload CMS, Notion API",
 };`}
         </pre>
       </div>
@@ -43,17 +43,19 @@ export function IsoScene() {
             Project
           </div>
           <div className="mt-1 font-display text-xl text-foreground">
-            TunisiaCars
+            Your custom project
           </div>
           <div className="mt-1 text-xs leading-5 text-muted-foreground">
-            Multilingual rental platform with SEO-first pages.
+           SaaS apps, content management, Multilingual, SEO-first pages, Content management.
           </div>
         </div>
         <div className="m-4 h-24 rounded-md gradient-primary" />
         <div className="flex flex-wrap gap-1.5 px-4 pb-4 font-mono text-[10px] text-muted-foreground">
           <span className="rounded bg-background/60 px-1.5 py-0.5">Next.js</span>
-          <span className="rounded bg-background/60 px-1.5 py-0.5">Payload</span>
+          <span className="rounded bg-background/60 px-1.5 py-0.5">PayloadCMS</span>
           <span className="rounded bg-background/60 px-1.5 py-0.5">MongoDB</span>
+          <span className="rounded bg-background/60 px-1.5 py-0.5">Node.js</span>
+          <span className="rounded bg-background/60 px-1.5 py-0.5">NestJs</span>
         </div>
       </div>
 
