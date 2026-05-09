@@ -28,17 +28,20 @@ export async function generateMetadata(
     post.summary ?? "Web development article by Hrabi.";
 
   const url = `/blog/${slug}`;
+  const canonical = post.canonicalUrl ?? url;
   const image = post.coverImage ?? "/assets/blog-illustration.webp";
 
   return {
     title,
     description,
-    alternates: { canonical: url },
+    alternates: { canonical },
     openGraph: {
       title,
       description,
       url,
       type: "article",
+      publishedTime: post.publishedAt,
+      authors: ["Ahmed Hrabi"],
       images: [{ url: image, width: 1200, height: 630, alt: title }],
     },
     twitter: {
@@ -66,9 +69,42 @@ export default async function BlogPostPage({
     return <BlogNotFound />;
   }
 
+  const baseUrl = (
+    process.env.NEXT_PUBLIC_SITE_URL ?? "https://ahmed-hrabi.vercel.app"
+  ).replace(/\/$/, "");
+
+  const blogPostingJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    headline: post.title,
+    description: post.summary,
+    datePublished: post.publishedAt,
+    dateModified: post.publishedAt,
+    image: post.coverImage ? [post.coverImage] : undefined,
+    mainEntityOfPage: {
+      "@type": "WebPage",
+      "@id": `${baseUrl}/blog/${slug}`,
+    },
+    author: {
+      "@type": "Person",
+      name: "Ahmed Hrabi",
+      url: "https://ahmed-hrabi.vercel.app",
+    },
+    publisher: {
+      "@type": "Person",
+      name: "Ahmed Hrabi",
+    },
+  };
+
   return (
     <>
-      <div className="flex-1 py-20">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(blogPostingJsonLd),
+        }}
+      />
+      <div className="flex-1">
         <BlogPostContent post={post} />
       </div>
     </>

@@ -3,7 +3,14 @@
 import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft, Calendar, MapPin, Building2, Clock, CheckCircle2 } from "lucide-react";
+import {
+  ArrowLeft,
+  Building2,
+  Calendar,
+  CheckCircle2,
+  Clock,
+  MapPin,
+} from "lucide-react";
 import { Experience } from "@/types/experience";
 import { useRouter } from "next/navigation";
 
@@ -11,162 +18,176 @@ interface ExperienceDetailClientProps {
   experience: Experience;
 }
 
-export function ExperienceDetailClient({ experience }: ExperienceDetailClientProps) {
+export function ExperienceDetailClient({
+  experience,
+}: ExperienceDetailClientProps) {
   const router = useRouter();
 
   const handleContactClick = () => {
     router.push("/#contact");
-    // Delay to ensure navigation happens before scroll
     setTimeout(() => {
       const contactSection = document.getElementById("contact");
-      if (contactSection) {
-        contactSection.scrollIntoView({ behavior: "smooth", block: "start" });
-      }
+      contactSection?.scrollIntoView({ behavior: "smooth", block: "start" });
     }, 100);
   };
 
   return (
-    <div className="min-h-screen bg-background pt-16">
-      {/* Hero Section */}
-      <section className="pt-16 pb-16 bg-gradient-to-br from-primary/5 via-background to-accent/5">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <Link href="/#experience" className="inline-flex items-center text-muted-foreground hover:text-primary transition-colors mb-8">
-            <ArrowLeft className="w-4 h-4 mr-2" />
-            Back to Experience
+    <div className="min-h-screen bg-background">
+      <section className="vanish-bg relative overflow-hidden border-b border-border/60">
+        <div className="absolute inset-0 iso-grid opacity-50" aria-hidden="true" />
+
+        <div className="relative mx-auto max-w-5xl px-5 py-16 md:py-20">
+          <Link
+            href="/experience"
+            className="mb-8 inline-flex items-center text-sm text-muted-foreground transition-colors hover:text-primary"
+          >
+            <ArrowLeft className="mr-2 size-4" aria-hidden="true" />
+            Back to experience
           </Link>
 
-          <div className="animate-fade-up">
-            <div className="flex flex-wrap gap-2 mb-4">
-              <Badge className="bg-primary/10 text-primary border-primary/20">
-                {experience.type}
-              </Badge>
-              <Badge variant="outline">
-                {experience.workMode}
-              </Badge>
-            </div>
+          <div className="flex flex-wrap gap-2">
+            <Badge className="rounded border border-primary/30 bg-primary/10 px-2 py-1 font-mono text-[11px] text-primary">
+              {experience.type}
+            </Badge>
+            <Badge
+              variant="outline"
+              className="rounded border-border bg-background/60 px-2 py-1 font-mono text-[11px] text-muted-foreground"
+            >
+              {experience.workMode}
+            </Badge>
+          </div>
 
-            <h1 className="text-3xl md:text-5xl font-bold text-foreground mb-3">
-              {experience.title}
-            </h1>
-            
-            <div className="flex items-center gap-2 text-xl text-primary font-semibold mb-6">
-              <Building2 className="w-5 h-5" />
-              {experience.company}
-            </div>
+          <h1 className="mt-4 font-display text-5xl leading-tight text-foreground md:text-6xl">
+            {experience.title}
+          </h1>
 
-            <div className="flex flex-wrap gap-4 text-muted-foreground">
+          <div className="mt-4 flex items-center gap-2 text-xl font-semibold text-primary">
+            <Building2 className="size-5" aria-hidden="true" />
+            {experience.company}
+          </div>
+
+          <div className="mt-6 flex flex-wrap gap-4 text-sm text-muted-foreground">
+            <span className="flex items-center gap-2">
+              <MapPin className="size-4" aria-hidden="true" />
+              {experience.location}
+            </span>
+            <span className="flex items-center gap-2">
+              <Calendar className="size-4" aria-hidden="true" />
+              {experience.period}
+            </span>
+            {experience.duration ? (
               <span className="flex items-center gap-2">
-                <MapPin className="w-4 h-4" />
-                {experience.location}
+                <Clock className="size-4" aria-hidden="true" />
+                {experience.duration}
               </span>
-              <span className="flex items-center gap-2">
-                <Calendar className="w-4 h-4" />
-                {experience.period}
-              </span>
-              {experience.duration && (
-                <span className="flex items-center gap-2">
-                  <Clock className="w-4 h-4" />
-                  {experience.duration}
-                </span>
-              )}
-            </div>
+            ) : null}
           </div>
         </div>
       </section>
 
-      {/* Content */}
-      <section className="py-16">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid md:grid-cols-3 gap-8">
-            {/* Main Content */}
-            <div className="md:col-span-2 space-y-10">
-              {/* Summary */}
-              {experience.summary && (
-                <div className="animate-fade-up">
-                  <p className="text-lg text-muted-foreground leading-relaxed">
-                    {experience.summary}
-                  </p>
-                </div>
-              )}
+      <section className="py-14 md:py-16">
+        <div className="mx-auto grid max-w-5xl gap-8 px-5 md:grid-cols-[1fr_320px]">
+          <div className="space-y-8">
+            {experience.summary ? (
+              <div className="rounded-xl border border-border surface-2 p-6">
+                <p className="text-lg leading-8 text-muted-foreground">
+                  {experience.summary}
+                </p>
+              </div>
+            ) : null}
 
-              {/* Responsibilities */}
-              {experience.responsibilities && experience.responsibilities.length > 0 && (
-                <div className="animate-fade-up" style={{ animationDelay: "100ms" }}>
-                  <h2 className="text-xl font-semibold text-foreground mb-4 flex items-center gap-2">
-                    <span className="w-8 h-0.5 bg-primary rounded-full" />
-                    Key Responsibilities
-                  </h2>
-                  <ul className="space-y-3">
-                    {experience.responsibilities.map((item, index) => (
-                      <li key={index} className="flex items-start gap-3 text-muted-foreground">
-                        <span className="w-2 h-2 bg-primary rounded-full mt-2 shrink-0" />
-                        {item}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              )}
+            {experience.responsibilities?.length ? (
+              <section className="rounded-xl border border-border surface-2 p-6">
+                <h2 className="font-display text-2xl text-foreground">
+                  Key responsibilities
+                </h2>
+                <ul className="mt-5 space-y-3">
+                  {experience.responsibilities.map((item) => (
+                    <li
+                      key={item}
+                      className="flex items-start gap-3 text-sm leading-7 text-muted-foreground"
+                    >
+                      <span className="mt-2 size-1.5 shrink-0 rounded-full bg-primary" />
+                      {item}
+                    </li>
+                  ))}
+                </ul>
+              </section>
+            ) : null}
 
-              {/* Achievements */}
-              {experience.achievements && experience.achievements.length > 0 && (
-                <div className="animate-fade-up" style={{ animationDelay: "200ms" }}>
-                  <h2 className="text-xl font-semibold text-foreground mb-4 flex items-center gap-2">
-                    <span className="w-8 h-0.5 bg-primary rounded-full" />
-                    Key Achievements
-                  </h2>
-                  <div className="grid gap-3">
-                    {experience.achievements.map((achievement, index) => (
-                      <div
-                        key={index}
-                        className="flex items-start gap-3 p-4 bg-primary/5 rounded-xl border border-primary/10"
-                      >
-                        <CheckCircle2 className="w-5 h-5 text-primary shrink-0 mt-0.5" />
-                        <span className="text-foreground">{achievement}</span>
-                      </div>
-                    ))}
-                  </div>
+            {experience.achievements?.length ? (
+              <section className="rounded-xl border border-border surface-2 p-6">
+                <h2 className="font-display text-2xl text-foreground">
+                  Key achievements
+                </h2>
+                <div className="mt-5 grid gap-3">
+                  {experience.achievements.map((achievement) => (
+                    <div
+                      key={achievement}
+                      className="flex items-start gap-3 rounded-lg border border-primary/20 bg-primary/10 p-4"
+                    >
+                      <CheckCircle2 className="mt-0.5 size-5 shrink-0 text-primary" />
+                      <span className="text-sm leading-6 text-foreground">
+                        {achievement}
+                      </span>
+                    </div>
+                  ))}
                 </div>
-              )}
+              </section>
+            ) : null}
+          </div>
+
+          <aside className="space-y-6 md:sticky md:top-24 md:h-fit">
+            <div className="rounded-xl border border-border surface-2 p-6">
+              <h2 className="font-display text-xl text-foreground">
+                Technologies used
+              </h2>
+              <div className="mt-4 flex flex-wrap gap-2">
+                {experience.skills.map((skill) => (
+                  <span
+                    key={skill}
+                    className="rounded bg-background/60 px-2 py-1 font-mono text-[11px] text-muted-foreground"
+                  >
+                    {skill}
+                  </span>
+                ))}
+              </div>
             </div>
 
-            {/* Sidebar */}
-            <div className="space-y-6">
-              {/* Skills */}
-              <div className="bg-card rounded-2xl border border-border/50 p-6 animate-fade-up" style={{ animationDelay: "300ms" }}>
-                <h3 className="font-semibold text-foreground mb-4">Technologies Used</h3>
-                <div className="flex flex-wrap gap-2">
-                  {experience.skills.map((skill) => (
-                    <Badge key={skill} variant="secondary" className="bg-primary/10 text-primary border-0">
-                      {skill}
-                    </Badge>
+            {experience.tools?.length ? (
+              <div className="rounded-xl border border-border surface-2 p-6">
+                <h2 className="font-display text-xl text-foreground">
+                  Tools and platforms
+                </h2>
+                <div className="mt-4 flex flex-wrap gap-2">
+                  {experience.tools.map((tool) => (
+                    <span
+                      key={tool}
+                      className="rounded border border-border bg-background/50 px-2 py-1 font-mono text-[11px] text-muted-foreground"
+                    >
+                      {tool}
+                    </span>
                   ))}
                 </div>
               </div>
+            ) : null}
 
-              {/* Tools */}
-              {experience.tools && experience.tools.length > 0 && (
-                <div className="bg-card rounded-2xl border border-border/50 p-6 animate-fade-up" style={{ animationDelay: "400ms" }}>
-                  <h3 className="font-semibold text-foreground mb-4">Tools & Platforms</h3>
-                  <div className="flex flex-wrap gap-2">
-                    {experience.tools.map((tool) => (
-                      <Badge key={tool} variant="outline" className="bg-muted/50">
-                        {tool}
-                      </Badge>
-                    ))}
-                  </div>
-                </div>
-              )}
-
-              {/* CTA */}
-              <div className="bg-gradient-to-br from-primary/10 to-accent/10 rounded-2xl p-6 border border-primary/20 animate-fade-up" style={{ animationDelay: "500ms" }}>
-                <h3 className="font-semibold text-foreground mb-2">Interested in working together?</h3>
-                <p className="text-sm text-muted-foreground mb-4">
-                  Let&apos;s discuss how I can bring similar results to your project.
-                </p>
-                <Button onClick={handleContactClick} className="w-full">Get in Touch</Button>
-              </div>
+            <div
+              className="rounded-xl border border-primary/30 bg-primary/10 p-6"
+              style={{ boxShadow: "var(--shadow-glow)" }}
+            >
+              <h2 className="font-display text-xl text-foreground">
+                Interested in similar results?
+              </h2>
+              <p className="mt-2 text-sm leading-6 text-muted-foreground">
+                Let&apos;s discuss how this experience can support your product,
+                platform, or website.
+              </p>
+              <Button onClick={handleContactClick} className="mt-5 w-full">
+                Get in touch
+              </Button>
             </div>
-          </div>
+          </aside>
         </div>
       </section>
     </div>

@@ -28,9 +28,19 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
   return {
     title: `${experience.title} at ${experience.company} | Hrabi`,
-    description: experience.summary || `${experience.title} at ${experience.company}`,
+    description:
+      experience.summary ||
+      `${experience.title} at ${experience.company}, part of Ahmed Hrabi's full-stack software engineering experience.`,
     alternates: {
       canonical: `/experience/${slug}`,
+    },
+    openGraph: {
+      title: `${experience.title} at ${experience.company}`,
+      description:
+        experience.summary ||
+        `${experience.title} at ${experience.company}, part of Ahmed Hrabi's full-stack software engineering experience.`,
+      url: `/experience/${slug}`,
+      type: "profile",
     },
   };
 }
@@ -43,5 +53,35 @@ export default async function ExperiencePage({ params }: PageProps) {
     notFound();
   }
 
-  return <ExperienceDetailClient experience={experience} />;
+  const baseUrl = (
+    process.env.NEXT_PUBLIC_SITE_URL ?? "https://ahmed-hrabi.vercel.app"
+  ).replace(/\/$/, "");
+
+  const experienceJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Role",
+    roleName: experience.title,
+    startDate: experience.period,
+    description: experience.summary,
+    url: `${baseUrl}/experience/${slug}`,
+    memberOf: {
+      "@type": "Organization",
+      name: experience.company,
+    },
+    performer: {
+      "@type": "Person",
+      name: "Ahmed Hrabi",
+      url: baseUrl,
+    },
+  };
+
+  return (
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(experienceJsonLd) }}
+      />
+      <ExperienceDetailClient experience={experience} />
+    </>
+  );
 }

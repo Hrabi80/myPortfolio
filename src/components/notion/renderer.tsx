@@ -69,10 +69,10 @@ const renderBlock = (block: ContentBlock) => {
     case "heading": {
       const headingClassName =
         block.level === 1
-          ? "mt-8 text-3xl font-bold tracking-tight"
+          ? "mt-8 text-3xl font-bold tracking-tight text-foreground"
           : block.level === 2
-            ? "mt-6 text-2xl font-semibold tracking-tight"
-            : "mt-4 text-xl font-semibold tracking-tight";
+            ? "mt-6 text-2xl font-semibold tracking-tight text-foreground"
+            : "mt-4 text-xl font-semibold tracking-tight text-foreground";
       const HeadingTag = block.level === 1 ? "h1" : block.level === 2 ? "h2" : "h3";
 
       return (
@@ -114,13 +114,17 @@ const renderBlock = (block: ContentBlock) => {
       return (
         <figure key={block.id} className="my-6">
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src={url} alt="Notion Image" className="w-full rounded-xl border border-border/60 bg-muted object-cover" />
+          <img
+            src={url}
+            alt="Notion image"
+            className="w-full rounded-xl border border-border/60 bg-muted object-cover shadow-soft"
+          />
         </figure>
       );
     }
     case "quote":
       return (
-        <blockquote key={block.id} className="border-l-2 border-border/70 pl-4 text-[15px] italic text-muted-foreground">
+        <blockquote key={block.id} className="border-l-2 border-primary/60 pl-4 text-[15px] italic text-muted-foreground">
           <Text text={block.rich_text} />
         </blockquote>
       );
@@ -128,7 +132,7 @@ const renderBlock = (block: ContentBlock) => {
       const calloutEmoji = block.icon ?? null;
 
       return (
-        <div key={block.id} className="flex gap-3 rounded-xl border border-border/60 bg-muted/60 px-4 py-3 text-[15px]">
+        <div key={block.id} className="flex gap-3 rounded-xl border border-border/60 surface-2 px-4 py-3 text-[15px]">
           {calloutEmoji ? <span className="text-lg leading-6">{calloutEmoji}</span> : null}
           <div className="leading-7">
             <Text text={block.rich_text} />
@@ -173,8 +177,8 @@ export function NotionRenderer({ blocks }: { blocks: ContentBlock[] }) {
       const ListTag = listStyle === "bulleted" ? "ul" : "ol";
       const listClassName =
         listStyle === "bulleted"
-          ? "ml-6 list-disc space-y-2 text-[15px] leading-7 text-foreground/90"
-          : "ml-6 list-decimal space-y-2 text-[15px] leading-7 text-foreground/90";
+          ? "ml-6 list-disc space-y-2 text-[15px] leading-7 text-foreground/90 marker:text-primary"
+          : "ml-6 list-decimal space-y-2 text-[15px] leading-7 text-foreground/90 marker:text-primary";
 
       content.push(
         <ListTag key={`list-${items[0]?.id ?? i}`} className={listClassName}>

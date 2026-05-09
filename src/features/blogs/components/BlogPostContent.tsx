@@ -3,7 +3,7 @@ import { Container } from "@/components/layout/primitives";
 import { NotionRenderer } from "@/components/notion/renderer";
 import { Button } from "@/components/ui/button";
 import { NotionTag } from "@/components/ui/notion-tag";
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, ExternalLink } from "lucide-react";
 import Link from "next/link";
 
 type BlogPostContentProps = {
@@ -11,60 +11,69 @@ type BlogPostContentProps = {
 };
 
 export function BlogPostContent({ post }: BlogPostContentProps) {
+  const externalUrl =
+    post.source === "medium" ? post.sourceUrl ?? post.canonicalUrl : undefined;
+
   return (
-    <Container size="lg" className="py-10">
-      {/* Back Button */}
-      <Button variant="ghost" size="sm" asChild className="mb-8 hover:bg-transparent hover:text-primary pl-0 -ml-3">
+    <Container size="lg" className="py-10 md:py-14">
+      <Button
+        variant="ghost"
+        size="sm"
+        asChild
+        className="mb-8 -ml-3 pl-0 hover:bg-transparent hover:text-primary"
+      >
         <Link href="/blog">
-          <ArrowLeft className="mr-2 h-4 w-4" /> Back to Blog
+          <ArrowLeft className="mr-2 size-4" aria-hidden="true" />
+          Back to blog
         </Link>
       </Button>
 
-      {/* Cover Image */}
       {post.coverImage ? (
-        <div className="mb-10 overflow-hidden rounded-2xl border border-border/60 bg-muted/60 shadow-sm">
+        <div className="mb-10 overflow-hidden rounded-xl border border-border/60 bg-muted/60 shadow-soft">
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img 
-            src={post.coverImage} 
-            alt={post.title} 
-            className="h-[40vh] w-full object-cover" 
+          <img
+            src={post.coverImage}
+            alt={`${post.title} cover`}
+            className="h-[38vh] min-h-[260px] w-full object-cover"
           />
         </div>
       ) : null}
 
-      {/* Header Content */}
-      <div className="mx-auto max-w-3xl space-y-8 mb-12">
-        <div className="space-y-4">
-          <div className="flex items-center gap-2 text-sm text-muted-foreground">
-            <time dateTime={post.publishedAt}>{post.publishedAt}</time>
-            {post.tags?.length ? (
-              <>
-                <span>•</span>
-                <div className="flex gap-2">
-                  {post.tags.map((tag) => (
-                    <NotionTag key={tag.id} tag={tag} />
-                  ))}
-                </div>
-              </>
-            ) : null}
-          </div>
-          
-          <h1 className="font-display text-4xl font-bold tracking-tight text-foreground md:text-5xl">
+      <header className="mx-auto mb-12 max-w-3xl space-y-6">
+        <div className="flex flex-wrap items-center gap-2 font-mono text-xs text-muted-foreground">
+          <time dateTime={post.publishedAt}>{post.publishedAt}</time>
+          <span className="text-primary">/ {post.source}</span>
+          {post.tags?.map((tag) => (
+            <NotionTag key={tag.id} tag={tag} />
+          ))}
+        </div>
+
+        <div>
+          <h1 className="font-display text-4xl leading-tight text-foreground md:text-5xl">
             {post.title}
           </h1>
-          
-          <p className="text-xl text-muted-foreground leading-relaxed">
+          <p className="mt-4 text-lg leading-8 text-muted-foreground md:text-xl">
             {post.summary}
           </p>
         </div>
 
+        {externalUrl ? (
+          <Button variant="outline" asChild>
+            <a href={externalUrl} target="_blank" rel="noopener noreferrer">
+              Read original
+              <ExternalLink className="size-4" aria-hidden="true" />
+            </a>
+          </Button>
+        ) : null}
+
         <div className="h-px w-full bg-border/60" />
-      </div>
-      
-      {/* Main Content */}
-      <article className="mx-auto max-w-3xl prose prose-neutral dark:prose-invert prose-lg">
-        <NotionRenderer blocks={post.blocks ?? []} />
-      </article>
+      </header>
+
+      {post.source === "notion" ? (
+        <article className="mx-auto max-w-3xl">
+          <NotionRenderer blocks={post.blocks ?? []} />
+        </article>
+      ) : null}
     </Container>
   );
 }

@@ -5,12 +5,11 @@ import { usePathname } from "next/navigation";
 import { useState } from "react";
 import { Menu, X } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { Button } from "@/components/ui/button";
 
 const navItems = [
   { name: "Home", href: "/" },
   { name: "Projects", href: "/projects" },
-  { name: "Experience", href: "/#experience" },
+  { name: "Experience", href: "/experience" },
   { name: "Blog", href: "/blog" },
   { name: "Contact", href: "/#contact" },
 ];
@@ -30,20 +29,31 @@ export function Header() {
   };
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 border-b border-border bg-background/80 backdrop-blur-md">
-      <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-6 lg:px-8">
-        <Link href="/" className="font-display text-xl font-bold text-foreground">
-          Hrabi<span className="text-primary">.</span>Portfolio
+    <header className="sticky top-0 z-50 border-b border-border/60 bg-background/75 backdrop-blur-xl">
+      <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-5">
+        <Link
+          href="/"
+          className="flex items-center gap-2 font-display text-lg font-semibold tracking-wide text-foreground"
+          aria-label="Ahmed Hrabi portfolio home"
+        >
+          <span
+            aria-hidden
+            className="inline-block size-7 rounded-md gradient-primary shadow-glow"
+            style={{ transform: "rotate(45deg)" }}
+          />
+          <span>
+            Hrabi<span className="text-primary">.</span>Portfolio
+          </span>
         </Link>
 
-        <nav className="hidden items-center gap-8 md:flex">
+        <nav className="hidden items-center gap-1 md:flex" aria-label="Primary navigation">
           {navItems.map((item) => (
             <Link
               key={item.href}
               href={item.href}
               className={cn(
-                "text-sm font-medium text-muted-foreground transition-colors duration-200 hover:text-foreground",
-                isActive(item.href) && "text-foreground"
+                "rounded-md px-3 py-2 text-sm text-muted-foreground transition-colors hover:bg-secondary hover:text-foreground",
+                isActive(item.href) && "bg-secondary text-foreground"
               )}
             >
               {item.name}
@@ -51,32 +61,41 @@ export function Header() {
           ))}
         </nav>
 
-        <Button
-          variant="ghost"
-          size="icon"
-          className="md:hidden"
+        <button
+          type="button"
+          className="rounded-md border border-border p-2 text-foreground transition-colors hover:bg-secondary md:hidden"
           onClick={() => setIsOpen((prev) => !prev)}
           aria-label={isOpen ? "Close menu" : "Open menu"}
+          aria-expanded={isOpen}
+          aria-controls="mobile-navigation"
         >
-          {isOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
-        </Button>
+          {isOpen ? <X className="size-4" /> : <Menu className="size-4" />}
+        </button>
       </div>
 
       {isOpen && (
-        <div className="border-t border-border bg-background/95 md:hidden">
-          <div className="mx-auto flex max-w-7xl flex-col gap-4 px-6 py-4 animate-fade-up">
+        <nav
+          id="mobile-navigation"
+          className="border-t border-border/60 bg-background/95 px-5 py-3 md:hidden"
+          aria-label="Mobile navigation"
+        >
+          <ul className="mx-auto flex max-w-6xl flex-col gap-1">
             {navItems.map((item) => (
-              <Link
-                key={item.href}
-                href={item.href}
-                className="text-sm font-medium text-muted-foreground transition-colors duration-200 hover:text-foreground"
-                onClick={() => setIsOpen(false)}
-              >
-                {item.name}
-              </Link>
+              <li key={item.href}>
+                <Link
+                  href={item.href}
+                  className={cn(
+                    "block rounded-md px-3 py-2 text-sm text-muted-foreground transition-colors hover:bg-secondary hover:text-foreground",
+                    isActive(item.href) && "bg-secondary text-foreground"
+                  )}
+                  onClick={() => setIsOpen(false)}
+                >
+                  {item.name}
+                </Link>
+              </li>
             ))}
-          </div>
-        </div>
+          </ul>
+        </nav>
       )}
     </header>
   );
