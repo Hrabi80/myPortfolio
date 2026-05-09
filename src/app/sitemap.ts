@@ -61,7 +61,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
     blog_entries = posts
       .filter((post) => Boolean(post?.slug))
-      .filter((post) => (typeof post.publishedAt === "boolean" ? post.publishedAt : true))
       .filter((post) => is_public_status(post.status))
       .map((post) => {
         const date_str = post.publishedAt ;

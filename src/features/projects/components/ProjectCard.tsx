@@ -1,54 +1,83 @@
 import { MarkdownRenderer } from "@/components/ui/markdown-renderer";
+import { NotionTag } from "@/components/ui/notion-tag";
 import { Project } from "@/domain/entities/project.entity";
+import { dateFormatter } from "@/utils/date";
 import { ArrowRight } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { NotionTag } from "@/components/ui/notion-tag";
 
 interface ProjectCardProps {
   project: Project;
   index: number;
 }
 
-export const ProjectCard = ({ project, index }: ProjectCardProps) => (
-  <Link href={`/projects/${project.slug}`} className="group block">
-    <div
-      className="rounded-2xl border border-border/50 bg-card p-6 shadow-soft transition-all duration-300 hover:shadow-[var(--shadow-hover)] opacity-0 animate-fade-up"
-      style={{ animationDelay: `${0.1 * (index + 1)}s` }}
-    >
-      <div className="mb-4 aspect-video overflow-hidden rounded-lg bg-muted">
-        {project.coverImage || project.gallery?.length ? (
-          <Image
-            width={800} // Larger width for better resolution
-            height={450} // Adjust the height for the aspect ratio
-            src={project.coverImage ?? project.gallery?.[0] ?? ""}
-            alt={project.name}
-            loading="lazy"
-            className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
+export const ProjectCard = ({ project, index }: ProjectCardProps) => {
+  const image = project.coverImage ?? project.gallery?.[0];
+
+  return (
+    <Link href={`/projects/${project.slug}`} className="group block h-full">
+      <article
+        className="relative flex h-full flex-col overflow-hidden rounded-xl border border-border surface-2 p-5 transition-all hover:border-primary/40"
+        style={{
+          animationDelay: `${0.08 * (index + 1)}s`,
+          boxShadow: "var(--shadow-elevate-1)",
+          transform: `perspective(1100px) rotateX(3deg) rotateY(${
+            (index % 3) - 1
+          }deg)`,
+        }}
+      >
+        <div className="relative mb-5 aspect-video overflow-hidden rounded-lg border border-border/70 bg-background/60">
+          {image ? (
+            <Image
+              fill
+              src={image}
+              alt={`${project.name} project preview`}
+              loading="lazy"
+              className="object-cover transition-transform duration-500 group-hover:scale-105"
+              sizes="(max-width: 768px) 100vw, (max-width: 1280px) 33vw, 384px"
+            />
+          ) : (
+            <div className="h-full w-full gradient-primary opacity-90" />
+          )}
+        </div>
+
+        <div className="flex items-baseline gap-3 font-mono text-xs">
+          <span className="text-primary">
+            {dateFormatter(project.publishedAt)}
+          </span>
+          <span className="text-muted-foreground">/ project</span>
+        </div>
+
+        <h3 className="mt-2 font-display text-2xl text-foreground transition-colors group-hover:text-primary">
+          {project.name}
+        </h3>
+
+        {project.subTitle ? (
+          <p className="mt-1 text-sm font-medium text-primary/90">
+            {project.subTitle}
+          </p>
+        ) : null}
+
+        <MarkdownRenderer className="mt-3 line-clamp-3 text-sm text-muted-foreground prose-p:my-0">
+          {project.summary}
+        </MarkdownRenderer>
+
+        {project.tags?.length ? (
+          <div className="mt-5 flex flex-wrap gap-2">
+            {project.tags.slice(0, 5).map((tag, tagIndex) => (
+              <NotionTag key={tag.id || tagIndex} tag={tag} />
+            ))}
+          </div>
+        ) : null}
+
+        <span className="mt-auto inline-flex items-center gap-2 pt-5 text-sm font-medium text-primary">
+          View Project
+          <ArrowRight
+            className="size-4 transition-transform group-hover:translate-x-1"
+            aria-hidden="true"
           />
-        ) : (
-          <div className="h-full w-full bg-gradient-to-br from-primary/15 via-transparent to-accent/20" />
-        )}
-      </div>
-
-      <h3 className="font-display mb-2 text-xl font-semibold text-foreground transition-colors group-hover:text-primary">
-        {project.name}
-      </h3>
-
-     <MarkdownRenderer className="mb-4 text-muted-foreground">
-        {project.summary}
-      </MarkdownRenderer>
-
-      <div className="mb-4 flex flex-wrap gap-2">
-        {project.tags && project.tags.map((tag, index) => (
-          <NotionTag key={tag.id || index} tag={tag} />
-        ))}
-      </div>
-
-      <span className="inline-flex items-center text-sm font-medium text-primary transition-colors hover:text-primary/80">
-        View Project
-        <ArrowRight className="ml-1 h-4 w-4" />
-      </span>
-    </div>
-  </Link>
-);
+        </span>
+      </article>
+    </Link>
+  );
+};

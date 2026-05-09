@@ -7,14 +7,14 @@ import { Metadata } from "next";
 export const revalidate = 60;
 
 export const metadata: Metadata = {
-  title: "Blog | Web Development, Next.js, NestJs",
+  title: "Blog | Next.js, Notion CMS, SEO, and Web Engineering",
   description:
-    "Articles by Hrabi about web development, Next.js, NodeJs, TypeScript, SEO, and performance.",
+    "Articles by Ahmed Hrabi about Next.js, TypeScript, Notion CMS workflows, backend architecture, SEO, and performance for modern web products.",
   alternates: { canonical: "/blog" },
   openGraph: {
-    title: "Blog | Hrabi",
+    title: "Blog | Ahmed Hrabi",
     description:
-      "Web development articles about Next.js, NodeJs, TypeScript, SEO, and performance.",
+      "Practical web engineering articles about Next.js, Notion, TypeScript, SEO, and performance.",
     url: "/blog",
     type: "website",
   },

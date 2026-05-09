@@ -10,8 +10,8 @@ type ProjectsGridProps = {
 export function ProjectsGrid({ projects }: ProjectsGridProps) {
   return (
     <section className="py-16">
-      <div className="mx-auto max-w-7xl px-6 lg:px-8">
-        <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+      <div className="mx-auto max-w-6xl px-5">
+        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
           {projects && projects.map((project, index) => (
             <ProjectCard key={project.id} project={project} index={index} />
           ))}

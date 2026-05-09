@@ -8,16 +8,16 @@ interface NotionTagProps {
 }
 
 const notionColorMap: Record<string, string> = {
-  default: "bg-gray-100 text-gray-700 dark:bg-gray-800 dark:text-gray-300",
-  gray: "bg-gray-100 text-gray-700 dark:bg-gray-800 dark:text-gray-300",
-  brown: "bg-orange-100 text-orange-800 dark:bg-orange-900/30 dark:text-orange-300",
-  orange: "bg-orange-100 text-orange-800 dark:bg-orange-900/30 dark:text-orange-300",
-  yellow: "bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-300",
-  green: "bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-300",
-  blue: "bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-300",
-  purple: "bg-purple-100 text-purple-800 dark:bg-purple-900/30 dark:text-purple-300",
-  pink: "bg-pink-100 text-pink-800 dark:bg-pink-900/30 dark:text-pink-300",
-  red: "bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-300",
+  default: "border-border bg-background/60 text-muted-foreground",
+  gray: "border-border bg-background/60 text-muted-foreground",
+  brown: "border-orange-400/30 bg-orange-500/10 text-orange-200",
+  orange: "border-orange-400/30 bg-orange-500/10 text-orange-200",
+  yellow: "border-yellow-400/30 bg-yellow-500/10 text-yellow-100",
+  green: "border-primary/30 bg-primary/10 text-primary",
+  blue: "border-sky-400/30 bg-sky-500/10 text-sky-200",
+  purple: "border-violet-400/30 bg-violet-500/10 text-violet-200",
+  pink: "border-pink-400/30 bg-pink-500/10 text-pink-200",
+  red: "border-red-400/30 bg-red-500/10 text-red-200",
 };
 
 export function NotionTag({ tag, className }: NotionTagProps) {
@@ -27,7 +27,7 @@ export function NotionTag({ tag, className }: NotionTagProps) {
     <Badge
       variant="outline"
       className={cn(
-        "rounded-full px-3 py-1 font-medium border-1",
+        "rounded px-2 py-1 font-mono text-[11px] font-medium",
         colorClass,
         className
       )}
