@@ -1,12 +1,10 @@
-"use client";
-
 import type { Project } from "@/domain/entities/project.entity";
 import { Container } from "@/components/layout/primitives";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft, Calendar, CheckCircle, Github, Globe } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
-import { Gallery } from "@/components/ui/Gallery";
+import { GalleryLoader } from "@/components/ui/GalleryLoader";
 import { dateFormatter } from "@/utils/date";
 import { MarkdownRenderer } from "@/components/ui/markdown-renderer";
 import { NotionTag } from "@/components/ui/notion-tag";
@@ -133,7 +131,7 @@ export function ProjectClient({ project }: ProjectClientProps) {
 
           {galleryImages.length > 0 ? (
             <div className="rounded-xl border border-border surface-2 p-5">
-              <Gallery images={galleryImages} title="Project gallery" />
+              <GalleryLoader images={galleryImages} title="Project gallery" />
             </div>
           ) : null}
         </aside>

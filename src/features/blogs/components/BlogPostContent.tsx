@@ -34,6 +34,8 @@ export function BlogPostContent({ post }: BlogPostContentProps) {
           <img
             src={post.coverImage}
             alt={`${post.title} cover`}
+            fetchPriority="high"
+            decoding="async"
             className="h-[38vh] min-h-[260px] w-full object-cover"
           />
         </div>
