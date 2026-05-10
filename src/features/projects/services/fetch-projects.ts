@@ -4,7 +4,7 @@ import { env } from "@/env";
 import { FallbackProjectRepository } from "@/infra/fallback/projects.repository";
 import { isNotionConfigured } from "@/infra/notion/client";
 import { NotionProjectRepository } from "@/infra/notion/repositories/projects.repository";
-import { sortByPublishedAt } from "@/utils/sorting";
+import { sortByProjectOrder } from "@/utils/sorting";
 import type { ProjectRepository } from "../project.repository";
 import { ProjectService } from "./project.services";
 
@@ -55,7 +55,7 @@ const buildProjectService = () => {
 export const fetchProjects = cache(async (): Promise<Project[] | null> => {
   const service = buildProjectService();
   const projects = await service.list();
-  return sortByPublishedAt(projects);
+  return sortByProjectOrder(projects);
 });
 
 export const fetchProjectBySlug = cache(

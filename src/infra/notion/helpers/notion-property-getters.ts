@@ -89,6 +89,17 @@ export const getDate = (page: PageObjectResponse, property: string): string => {
   return new Date().toISOString();
 };
 
+export const getNumber = (
+  page: PageObjectResponse,
+  property: string,
+): number | undefined => {
+  const prop = page.properties[property];
+  if (prop?.type === "number") {
+    return prop.number ?? undefined;
+  }
+  return undefined;
+};
+
 export const getCover = (page: PageObjectResponse): string | undefined => {
   if (page.cover?.type === "external") {
     return page.cover.external.url;
