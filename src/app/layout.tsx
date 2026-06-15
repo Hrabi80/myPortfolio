@@ -4,6 +4,8 @@ import "./globals.css";
 import { Header } from "@/components/layout/header";
 import { Footer } from "@/components/layout/footer";
 import { WhatsAppButton } from "@/components/ui/whatsapp-button";
+import { JsonLd } from "@/components/seo/JsonLd";
+import { baseJsonLdGraph, siteUrl } from "@/lib/seo";
 
 const poppins = Poppins({
   variable: "--font-sans",
@@ -26,56 +28,6 @@ const jetBrainsMono = JetBrains_Mono({
   display: "swap",
 });
 
-const siteUrl = (
-  process.env.NEXT_PUBLIC_SITE_URL ?? "https://ahmed-hrabi.vercel.app"
-).replace(/\/$/, "");
-
-const personJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "Person",
-  name: "Ahmed Hrabi",
-  alternateName: "Hrabi",
-  jobTitle: "Full-Stack Software Engineer",
-  url: siteUrl,
-  image: `${siteUrl}/assets/avatar.webp`,
-  email: "mailto:hrabi.ahmed8@gmail.com",
-  telephone: "+21627797784",
-  address: {
-    "@type": "PostalAddress",
-    addressCountry: "TN",
-    addressRegion: "Tunisia",
-  },
-  knowsAbout: [
-    "Next.js",
-    "TypeScript",
-    "Node.js",
-    "NestJS",
-    "Angular",
-    "Payload CMS",
-    "Notion API",
-    "Technical SEO",
-  ],
-  sameAs: [
-    "https://github.com/Hrabi80",
-    "https://www.linkedin.com/in/ahmed-hrabi/",
-    "https://twitter.com/hrabi_dev",
-  ],
-};
-
-const websiteJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "WebSite",
-  name: "Ahmed Hrabi Portfolio",
-  url: siteUrl,
-  inLanguage: "en",
-  description:
-    "Portfolio of Ahmed Hrabi, a Tunisia-based full-stack software engineer building fast, SEO-friendly web applications.",
-  author: {
-    "@type": "Person",
-    name: "Ahmed Hrabi",
-  },
-};
-
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   applicationName: "Ahmed Hrabi Portfolio",
@@ -89,14 +41,21 @@ export const metadata: Metadata = {
     google: "yKz9iF09ziR6NHnU7IS1A4-kNJ3y3opq-_HsUwSYpzg",
   },
   title: {
-    default: "Ahmed Hrabi | Full-Stack Software Engineer in Tunisia",
+    default:
+      "Ahmed Hrabi | Payload CMS Consultant & Full-Stack JavaScript Developer",
     template: "%s | Ahmed Hrabi",
   },
   description:
-    "Ahmed Hrabi is a Tunisia-based full-stack software engineer specializing in Next.js, TypeScript, Node.js, NestJS, Angular, Notion CMS, and SEO-friendly web applications.",
+    "Ahmed Hrabi is a Tunisia-based Payload CMS consultant and full-stack JavaScript developer specializing in Next.js, TypeScript, Node.js, NestJS, Angular, and SEO-friendly web applications for remote teams.",
   keywords: [
     "Ahmed Hrabi",
     "Hrabi",
+    "Payload CMS Consultant",
+    "Payload CMS Developer",
+    "Full Stack JavaScript Consultant",
+    "Full Stack JS Developer",
+    "Remote Web Developer Europe",
+    "Remote Full Stack Developer Europe",
     "Software Engineer",
     "Full Stack Developer Tunisia",
     "Web Developer Tunisia",
@@ -119,9 +78,10 @@ export const metadata: Metadata = {
     locale: "en_US",
     url: siteUrl,
     siteName: "Ahmed Hrabi Portfolio",
-    title: "Ahmed Hrabi | Full-Stack Software Engineer in Tunisia",
+    title:
+      "Ahmed Hrabi | Payload CMS Consultant & Full-Stack JavaScript Developer",
     description:
-      "Portfolio of Ahmed Hrabi, a Tunisia-based full-stack software engineer building performant, SEO-friendly web platforms.",
+      "Tunisia-based Payload CMS consultant and full-stack JavaScript developer building performant, SEO-friendly web platforms for remote teams.",
     images: [
       {
         url: "/og-image.webp",
@@ -133,9 +93,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Ahmed Hrabi | Full-Stack Software Engineer",
+    title: "Ahmed Hrabi | Payload CMS Consultant & Full-Stack JS Developer",
     description:
-      "Tunisia-based full-stack software engineer building performant, SEO-friendly web platforms.",
+      "Tunisia-based Payload CMS consultant and full-stack JavaScript developer for remote teams.",
     images: ["/og-image.webp"],
     creator: "@hrabi_dev",
   },
@@ -177,12 +137,7 @@ export default function RootLayout({
       suppressHydrationWarning
     >
       <body className="antialiased">
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify([personJsonLd, websiteJsonLd]),
-          }}
-        />
+        <JsonLd data={baseJsonLdGraph()} />
         <a
           href="#main-content"
           className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:rounded-md focus:bg-primary focus:px-4 focus:py-2 focus:text-sm focus:font-semibold focus:text-primary-foreground"

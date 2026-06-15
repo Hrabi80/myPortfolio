@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { Github, Linkedin, Mail, Twitter } from "lucide-react";
+import { consultingServices } from "@/data/services";
 
 export function Footer() {
   const links = [
@@ -11,7 +12,7 @@ export function Footer() {
 
   return (
     <footer className="mt-24 border-t border-border/60 surface-1">
-      <div className="mx-auto grid max-w-6xl gap-10 px-5 py-14 md:grid-cols-3">
+      <div className="mx-auto grid max-w-6xl gap-10 px-5 py-14 md:grid-cols-4">
         <div>
           <Link
             href="/"
@@ -20,8 +21,8 @@ export function Footer() {
             Hrabi<span className="text-primary">.</span>Portfolio
           </Link>
           <p className="mt-3 max-w-sm text-sm leading-6 text-muted-foreground">
-            Full-stack software engineer in Tunisia crafting clean, reliable,
-            and scalable web applications.
+            Payload CMS consultant and full-stack JavaScript developer in
+            Tunisia building clean, reliable, and scalable web applications.
           </p>
         </div>
 
@@ -37,6 +38,24 @@ export function Footer() {
                   className="text-muted-foreground transition-colors hover:text-primary"
                 >
                   {link.label}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </nav>
+
+        <nav aria-label="Service pages">
+          <h2 className="font-display text-sm uppercase tracking-widest text-muted-foreground">
+            Services
+          </h2>
+          <ul className="mt-3 space-y-2 text-sm">
+            {consultingServices.map((service) => (
+              <li key={service.slug}>
+                <Link
+                  href={service.href}
+                  className="text-muted-foreground transition-colors hover:text-primary"
+                >
+                  {service.title}
                 </Link>
               </li>
             ))}
