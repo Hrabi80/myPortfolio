@@ -1,4 +1,5 @@
 import type { MetadataRoute } from "next";
+import { consultingServices } from "@/data/services";
 import experience_data from "@/data/experience.json";
 import { fetchBlogs } from "@/features/blogs/services/fetch-blogs";
 import { fetchProjects } from "@/features/projects/services/fetch-projects";
@@ -35,6 +36,13 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   const projects = (await fetchProjects()) as { slug?: string; status?: string; publishedAt?: string }[];
   const experiences = experience_data as { id: string }[];
+
+  const service_entries: MetadataRoute.Sitemap = consultingServices.map((service) => ({
+    url: `${base_url}${service.href}`,
+    lastModified: last_modified,
+    changeFrequency: "monthly",
+    priority: 0.85,
+  }));
 
   const project_entries: MetadataRoute.Sitemap = projects
     .filter((project) => project.status !== "unpublished" && Boolean(project.slug))
@@ -102,6 +110,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       changeFrequency: "monthly",
       priority: 0.7,
     },
+    ...service_entries,
     ...project_entries,
     ...experience_entries,
     ...blog_entries,

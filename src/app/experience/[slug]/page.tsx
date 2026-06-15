@@ -1,10 +1,56 @@
 import { ExperienceDetailClient } from "./page_client";
+import { JsonLd } from "@/components/seo/JsonLd";
 import experienceData from "@/data/experience.json";
 import { Experience } from "@/types/experience";
 import { notFound } from "next/navigation";
 import { Metadata } from "next";
+import {
+  absoluteUrl,
+  breadcrumbJsonLd,
+  personId,
+  websiteId,
+} from "@/lib/seo";
 
 const experiences = experienceData as Experience[];
+
+const monthMap: Record<string, string> = {
+  Jan: "01",
+  Feb: "02",
+  Mar: "03",
+  Apr: "04",
+  May: "05",
+  Jun: "06",
+  Jul: "07",
+  Aug: "08",
+  Sep: "09",
+  Oct: "10",
+  Nov: "11",
+  Dec: "12",
+};
+
+function parsePeriodDate(value?: string) {
+  if (!value) {
+    return undefined;
+  }
+
+  const [month, year] = value.trim().split(/\s+/);
+  const normalizedMonth = monthMap[month];
+
+  if (!normalizedMonth || !year) {
+    return undefined;
+  }
+
+  return `${year}-${normalizedMonth}`;
+}
+
+function parseExperiencePeriod(period: string) {
+  const [start, end] = period.split(" - ");
+
+  return {
+    startDate: parsePeriodDate(start),
+    endDate: end && end !== "Present" ? parsePeriodDate(end) : undefined,
+  };
+}
 
 interface PageProps {
   params: Promise<{ slug: string }>;
@@ -53,34 +99,71 @@ export default async function ExperiencePage({ params }: PageProps) {
     notFound();
   }
 
-  const baseUrl = (
-    process.env.NEXT_PUBLIC_SITE_URL ?? "https://ahmed-hrabi.vercel.app"
-  ).replace(/\/$/, "");
+  const pageUrl = absoluteUrl(`/experience/${slug}`);
+  const { startDate, endDate } = parseExperiencePeriod(experience.period);
+  const breadcrumb = breadcrumbJsonLd([
+    { name: "Home", href: "/" },
+    { name: "Experience", href: "/experience" },
+    {
+      name: `${experience.title} at ${experience.company}`,
+      href: `/experience/${slug}`,
+    },
+  ]);
 
   const experienceJsonLd = {
     "@context": "https://schema.org",
-    "@type": "Role",
-    roleName: experience.title,
-    startDate: experience.period,
-    description: experience.summary,
-    url: `${baseUrl}/experience/${slug}`,
-    memberOf: {
-      "@type": "Organization",
-      name: experience.company,
-    },
-    performer: {
-      "@type": "Person",
-      name: "Ahmed Hrabi",
-      url: baseUrl,
-    },
+    "@graph": [
+      {
+        "@type": "ProfilePage",
+        "@id": `${pageUrl}#webpage`,
+        url: pageUrl,
+        name: `${experience.title} at ${experience.company}`,
+        headline: `${experience.title} at ${experience.company}`,
+        description: experience.summary,
+        inLanguage: "en",
+        isPartOf: {
+          "@id": websiteId,
+        },
+        mainEntity: {
+          "@id": `${pageUrl}#role`,
+        },
+        breadcrumb: {
+          "@id": breadcrumb["@id"],
+        },
+      },
+      {
+        "@type": "EmployeeRole",
+        "@id": `${pageUrl}#role`,
+        roleName: experience.title,
+        startDate,
+        endDate,
+        employmentType: experience.type,
+        description: experience.summary,
+        url: pageUrl,
+        skills: experience.skills,
+        knowsAbout: [...experience.skills, ...(experience.tools ?? [])],
+        jobLocation: {
+          "@type": "Place",
+          name: experience.location,
+        },
+        memberOf: {
+          "@type": "Organization",
+          name: experience.company,
+        },
+        performer: {
+          "@id": personId,
+        },
+        mainEntityOfPage: {
+          "@id": `${pageUrl}#webpage`,
+        },
+      },
+      breadcrumb,
+    ],
   };
 
   return (
     <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(experienceJsonLd) }}
-      />
+      <JsonLd data={experienceJsonLd} />
       <ExperienceDetailClient experience={experience} />
     </>
   );

@@ -15,17 +15,18 @@ export function HeroSection() {
           </p>
 
           <h1 className="mt-5 font-display text-5xl leading-[1.05] text-foreground md:text-7xl">
-            <span className="text-gradient">Crafting digital</span>
+            <span className="text-gradient">Payload CMS</span>
             <br />
-            <span className="text-gradient-primary">experiences</span>
+            <span className="text-gradient-primary">consultant</span>
             <br />
-            <span className="text-gradient">that scale.</span>
+            <span className="text-gradient">and full-stack JS developer.</span>
           </h1>
 
           <p className="mt-6 max-w-xl text-base leading-8 text-muted-foreground md:text-lg">
-            I am Ahmed Hrabi, a Tunisia full-stack software engineer
-            focused on clean, reliable, scalable, and SEO-friendly web platforms with
-            Next.js, TypeScript, Node.js, and modern CMS workflows.
+            I am Ahmed Hrabi, a Tunisia-based Payload CMS consultant and
+            full-stack JavaScript developer helping remote teams build clean,
+            reliable, scalable, and SEO-friendly web platforms with Next.js,
+            TypeScript, Node.js, and modern CMS workflows.
           </p>
 
           <div className="mt-8 flex flex-wrap gap-3">
@@ -36,8 +37,8 @@ export function HeroSection() {
               </Link>
             </Button>
             <Button variant="hero-outline" size="lg" asChild>
-              <Link href="/projects">
-                View Projects
+              <Link href="/#services">
+                Consulting Services
                 <ArrowRight className="size-4" aria-hidden="true" />
               </Link>
             </Button>
@@ -54,7 +55,7 @@ export function HeroSection() {
             </div>
             <div>
               <dt className="text-muted-foreground">Focus</dt>
-              <dd className="font-display text-2xl text-primary">SEO & Scalability</dd>
+              <dd className="font-display text-2xl text-primary">CMS & SEO</dd>
             </div>
           </dl>
         </div>

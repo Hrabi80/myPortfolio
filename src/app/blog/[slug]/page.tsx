@@ -1,10 +1,17 @@
-import { BlogNotFound } from "@/features/blogs/components/BlogNotFound";
+import { JsonLd } from "@/components/seo/JsonLd";
 import { BlogPostContent } from "@/features/blogs/components/BlogPostContent";
 import {
   fetchBlogBySlug,
   fetchBlogs,
 } from "@/features/blogs/services/fetch-blogs";
+import {
+  absoluteUrl,
+  breadcrumbJsonLd,
+  personId,
+  websiteId,
+} from "@/lib/seo";
 import { Metadata } from "next";
+import { notFound } from "next/navigation";
 
 export const revalidate = 60; // Revalidate every 60 seconds
 type PageProps = {
@@ -66,44 +73,75 @@ export default async function BlogPostPage({
   const post = await fetchBlogBySlug(slug);
 
   if (!post) {
-    return <BlogNotFound />;
+    notFound();
   }
 
-  const baseUrl = (
-    process.env.NEXT_PUBLIC_SITE_URL ?? "https://ahmed-hrabi.vercel.app"
-  ).replace(/\/$/, "");
+  const pageUrl = absoluteUrl(`/blog/${slug}`);
+  const image = absoluteUrl(post.coverImage ?? "/assets/blog-illustration.webp");
+  const breadcrumb = breadcrumbJsonLd([
+    { name: "Home", href: "/" },
+    { name: "Blog", href: "/blog" },
+    { name: post.title, href: `/blog/${slug}` },
+  ]);
 
   const blogPostingJsonLd = {
     "@context": "https://schema.org",
-    "@type": "BlogPosting",
-    headline: post.title,
-    description: post.summary,
-    datePublished: post.publishedAt,
-    dateModified: post.publishedAt,
-    image: post.coverImage ? [post.coverImage] : undefined,
-    mainEntityOfPage: {
-      "@type": "WebPage",
-      "@id": `${baseUrl}/blog/${slug}`,
-    },
-    author: {
-      "@type": "Person",
-      name: "Ahmed Hrabi",
-      url: "https://ahmed-hrabi.vercel.app",
-    },
-    publisher: {
-      "@type": "Person",
-      name: "Ahmed Hrabi",
-    },
+    "@graph": [
+      {
+        "@type": "WebPage",
+        "@id": `${pageUrl}#webpage`,
+        url: pageUrl,
+        name: post.title,
+        headline: post.title,
+        description: post.summary,
+        inLanguage: "en",
+        isPartOf: {
+          "@id": websiteId,
+        },
+        author: {
+          "@id": personId,
+        },
+        mainEntity: {
+          "@id": `${pageUrl}#article`,
+        },
+        breadcrumb: {
+          "@id": breadcrumb["@id"],
+        },
+      },
+      {
+        "@type": "BlogPosting",
+        "@id": `${pageUrl}#article`,
+        headline: post.title,
+        name: post.title,
+        description: post.summary,
+        datePublished: post.publishedAt,
+        dateModified: post.publishedAt,
+        image: image ? [image] : undefined,
+        url: pageUrl,
+        isAccessibleForFree: true,
+        articleSection: post.tags?.map((tag) => tag.name),
+        keywords: post.tags?.map((tag) => tag.name).join(", "),
+        about: post.tags?.map((tag) => ({
+          "@type": "Thing",
+          name: tag.name,
+        })),
+        mainEntityOfPage: {
+          "@id": `${pageUrl}#webpage`,
+        },
+        author: {
+          "@id": personId,
+        },
+        publisher: {
+          "@id": personId,
+        },
+      },
+      breadcrumb,
+    ],
   };
 
   return (
     <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify(blogPostingJsonLd),
-        }}
-      />
+      <JsonLd data={blogPostingJsonLd} />
       <div className="flex-1">
         <BlogPostContent post={post} />
       </div>
